@@ -1,0 +1,885 @@
+I want to use it my app to retrieve Wallpaper for my apps users (Desktop and Phone usage).
+National Space centre website http://spacecentre.co.uk/news/today-in-space/
+A demo API key with lower, IP address limits, for use in our documentation and sample URLs.
+Educational purposes
+www.espacioprofundo.com.ar
+Running tests on your APIs to see how it does at different points in the day. Thanks to whoever reads this!
+app
+for privately (For my private homepage background image!)
+Mac App for NASA Wallpapers
+Chrome OS application to automatically show APOD wallpaper
+Developing Android apps
+Test integration with Azuqua
+To download APOD as wallpaper
+planing to create an APP
+Exploring the Nasa.gov datasets.
+New tab Chrome extension to display APOD, also have controls to select a random APOD, date selector, and navigation buttons for prev/next days.
+Experimenting with html5 and practice with api.
+Daily wallpaper
+front end engineer skills assessment
+in my mobile iOS application "NASA"
+Mainly for getting the daily image for a tool my dev team use :)
+Use this API to SimpTab( Chrome extension )
+Mobile iOS application as part of Udacity Nanodegree. WIl likely put code up on Github to make freely available.
+Hackathon
+I would like to make a small asteroid tracker app for personal use.
+Hackathon
+Hobby
+Android space photo app.
+I would like to make an app to display APOD on the Apple TV.
+Study and education
+To show data from NASA in certain Instant Answers that appear at the top of DuckDuckGo search results.
+The API will be used on the National Space Centre website (www.spacecentre.co.uk).
+For data visualisation and creative coding.
+For iOS apps tracking the ISS.
+I am building a app to display the NASA image of the day for Zendesk. 
+For fun :) I am going to try to make an webapp that shows data from your site. 
+I will be using the Mars image data and possibly the meteorite landing data for an interactive design class project.
+For interactive museum kiosks
+Learning purposes
+Creating a new tab Chrome extension that shows the APOD.
+mobile
+Experimentation
+Interested in using the astronomy picture of the day. Also interested in data visualisation and would like to use nasa data for learning purposes
+I am building a notification center for my home using a Raspberry Pi and want to create a widget with the APOD on it.
+Hackathon
+I am developing an OS X application to automatically set desktop backgrounds from various sources - I would like to use APOD as one of the sources of images.
+Android Health/Fitness app
+learning to use API (while learning FrontEnd development stuff)
+Custom android wallpaper changer
+Study
+For a web development project
+Daily APOD Wallpapers
+Use of NASA imagery to create wonderful desktop backgrounds
+For trying to do a helpful mobile app
+Project assignment for UCF Coding Boot Camp class.
+to learn how to use APIs in a web-development course
+To Create Educational Artworks 
+I wrote a randomizer for APOD pictures (that is slightly different from the APOD random page) and it uses API requests to get the image and the description
+For the Auburn Hackathon 2017
+I want to develop an intuitive User Interface (using Android) for people to see and appreciate the beauty of space, every single day.
+I want to show the picture of the day as the background of my new Chrome tab
+To create web app for Equifax hackathon.
+API training
+To build fun websites.
+I'm a new web developer working on a class project to show cool space views.
+I want to use API for showing images from red planet :) I am creating android application to showing people, how beautiful Mars.
+Educational purposes
+Mobile app
+Education
+mobile app
+application development
+To get data for dummy apps I develop when learning new tecnologies
+science research
+daily image
+"I will use to get the Astronomy Picture of the Day
+"
+In a Windows 10 app that allows the user to see images and set them as a desktop or lock screen wallpaper
+Development and Fun Side Projects
+To get some nice data to put in my school assignment
+I plan to develop an app based on mars photos.
+Student Project
+"Student Research
+"
+"Student Research Project
+"
+In  websites and apps to meet the educational needs. 
+I need an external API for my web page.
+Mobile app
+I want to create web tools to help people learn about and get inspired by space science!
+I want to create a nice looking new tab page for my computer. Wouldn't be complete without the APOD!
+personal wallpaper
+Interested in image processing with public datasets to use for educational purposes. 
+I want to further my iOS/macOS development skills, by creating applications with NASA APIs.
+Not sure
+Test appplication and educational
+For FUN!!!!
+We hoep to use it in a 404 page. We don't expect to be a heavy burden and we will cache images :D
+Equifax Hackathon 2017 coding competition
+For our company website to show the daily picture APOD in the background.
+"for home use
+"
+To show the APOD on my website
+I'm planning to build an app for exploring mars photos.
+I have a crawler - much like an rss reader - which collects the news I trust and/or like. I would like to integrate APOD too.
+A class project I'm working on in computer programming school!
+testing
+For a student project
+equifax contest
+Auburn Hackathon
+personnal viewing
+testing API keys
+Get APOD images
+testing purposes - developing mobile app
+play
+For my android apps
+For testing IOS app
+Student of Web Development
+I want to build simple app for astronomy enthusiasts
+for education purpose
+Learning web dev.
+Learning code and private projects
+Personal website
+concours delphi
+Coding Bootcamp project
+I am a student, I will use it in personal projects to acquire photos from mars rovers
+Exemple to hire a job
+Develop mobile application
+I would like to use the API's to develop experimental mobile applications.
+Explore the API's
+Retrieve images via JSON
+Educational purposes
+Rotating video game background for a school project.
+Chat bots for Facebook and possibly Telegram, Slack, Skype...
+We would like to make a portal for the public to see Pictures of the day, and Mars Picture's of the day, and look interesting data.
+Auburn Hackathon 2017
+to view pics on my phone
+otouto, a bot for the Telegram messaging service, now has a plugin which leverages your API to display the apod photos.
+Nashville Software School programming exercise to demonstrate slideshow capability.
+Equifax Auburn Hackathon
+To create a private angular page that allows people to explore the NASA database
+exercises in school to learn javascript on some better examples
+Ajax learning then open source edu "space" page
+Practice building web apps
+I want to Chromecast your stuff from an Android app which I will build today :)
+We will load the APOD image, title and explanation on our dashboard for a webapp that is used to Control And Monitor the MeerKAT project at SKA SA. www.ska.ac.za
+class project
+for the moment building a couple of twitterbots
+Backup API Key. I am using it as for the debug flavor of my Android app. The Android app will chromecast 
+Raspberry Pi project.
+Develop the app for Chrome app
+Academic purposes (Assignment/Course work)
+To access to landsat raw data
+I want to make a nice wallpaper for myself. And later ofc got to explore if I can find anything interesting I could add to my irc bot. 
+Student Project
+app
+For fun
+WHILE PROGRAMMING AN APPLICATION FOR ME!
+Working with APIs for class.
+Making Android and iOS applications.
+Data Visualization
+I am working on an application for a college course.
+Personal data project. I'm a student at brown university.
+Featuring APOD on the home page of sciences and exploration website. science.gsfc.nasa.gov
+For fun and education!
+"I am a student at Oregon State University and developing a how-to-guide to introduce some of the APIs and how to access them.
+University email is pikelj@oregonstate.edu"
+I'll use NASA's open data in my app.
+Curiosity
+APOD
+iOS App
+Testing API for a test Android app
+For an animation exercise in my coding class
+Mobile app to view information.
+Demo how apod page could be revamped
+Test project Android and iOS
+Study effects of climate change
+I wish to upgrade my ajax skills.
+Practice coding with apis
+Personal apod homescreen 
+Testing
+"I am an artist and use google mapping imagery for some of my work. I'd like to dig into your api and see if I could incorporate some of the images in my work. 
+Thanks,
+Daniel Ochoa
+www.danielochoa.com"
+In a iOS app.
+To obtain the APOD for a daily wallpaper
+Educational purposes
+For use in coursework as part of degree in Computer Science
+for testing
+just practicing with APIs for now
+For research reasons
+I am creating a Slack bot to display NASA images such as APOD, and mars rover images.
+exercise ajax
+Teaching REST API in my classes ;)
+to display random images on my website
+For the picture of the day
+create app astronomy
+I'm going to use this API with C++ Builder on Windows & Android , may be Mac & iOS
+To display the APOD in a startpage exstension for chrome and firefox
+Development
+Picture of the day!
+I am going to build an echo skill to get information about near earth objects
+Hobby project
+For orrery.com
+For fun
+Auburn Hackathon 2017
+A Universe Index app with information about Asteroids, etc.
+Education
+To provide interesting images on our company intranet.  Text will credit the NASA site.
+using for the Auburn Hackathon 2017 competition.
+to look at the pictures
+ajax training
+Free and open source Android app
+For school project
+To explore the NASA API and use it in a project for my web development class at Oregon State University. 
+Teaching
+educashun
+educational purposes
+I'm working on a Chinese copy of IFTTT or Workflow something like that.
+I am making an android app for people who love astronomy and wants to experience it virtuallypeople who love astronomy and wants to experience it virtually
+Study
+In an iOS app
+for an assignment in my course of big data
+APIs would be used in a web application which fetches details about asteroids and shows it beautifully.
+private use
+learn 
+mobile application
+Build a tvOS app for the new Apple TV showing the astronomy picture of the day
+to satisfy my curiosity :-)
+For iOS swift app for learning.
+Recreational creation of web apps.
+I am writing an online course about Android Performance Issues for Pluralsight. During the course, I wanted to present a demo application which uses your apis
+Auburn Hackathon 2017
+I'm building a web site that will let people explore their place in the world and the universe and would love to illustrate it all with NASA data and images!
+"I am a developer and i like to try out new tech and API's in my spare time. I will probably just build something fun for my self to start.. Perhaps later on an idea will grow into something more but for now its just for fun and for trying out some fun new tech. Best Regards, 
+Johan "
+Creating apps for Educational purposes
+to make application
+Purely for creating test apps in order to become a more competent web developer.
+School Project
+For ubuntu / ubuntu phone apps
+iOS projects
+Just practicing working with APIs.  Thanks!
+Testing API calls
+private use
+for learning how to build mobile apps
+For Klwp
+for web dev studying purposes
+computer science class
+University project
+Hackathon
+I'm creating an Alexa Skill to tell users how far away the nearest Near Earth Object is.
+To learn ajax.
+hobby/scientific communication
+I am creating a small app to practice my front end web programming skills and would like to use the NASA pics in my app.
+I will be using NASA's API for my Hack Davis project.
+Wanto usse the key to change automaticly my wallpaper on a daily base.
+I will include them in a Windows 10 App dedicated to Kerbal Space Program (a videogame that simulates space exploration).
+I'm working on a school project that will display the APOTD that was published on the date entered. 
+Nashville Software School Exercise. It will not be published on any website or domain. Only for local hosting for a slideshow exercise using jQuery.
+hackathon
+To host random images with associated text to help get people interested in science and the goals of NASA! =D
+Android Developement
+Testing
+educational purposes.  
+Personal use / possible educational experiments
+For a job interview
+I am making an iOS version of APOD, I have about 3 days left to be submitted to the apple store. Would love to send you guys the sample!
+Android app development for learning purposes online.
+Astronomy pic of the day
+APOD twitterbot
+portfolio
+Learning about APIs in school 
+The picture of the day will be the background image for the Home Alerts smart home app.
+apps learning purpose
+we have group of astronomy lovers here in algeria , and im going to build desktop app so they can see the pictures taken by the rovers in mars 
+I am a student at Flatiron School in NYC and am learning iOS programming.  I would like to use NASAs APIs to make some test projects/ demos for school.
+For cool data visualization
+Education
+hobby
+To get base photos for background
+Example App to showcase image loading on a mobile development platform
+I'm looking to use NASA data in emerging tech demonstrations to encourage developers to find new ways to display existing data in VR/AR, over AI and more.
+I will use the API in an Assignment in "Distributed System Programming: Scale Out with Cloud Computing and Map-Reduce 1" Course in Computer Science Department, Ben Gurion University.
+Personal interest apps/scripts.
+As a live wallpaper 
+Mobile iOS Application.
+I am developing an android application displaying the weather data gathered by Curiosity and the photos Curiosity makes on Mars. See github for project code: https://github.com/nadeche/mars_weather_explorer
+Really just looking to muck around and have fun with a cool API, I am interesting in the Mars Rover images. Maybe try something artsy.
+For educational and recruitment purposes. Everyone loves NASA! :)
+For school
+Education
+I'm planning on building a tvOS app to show off your wonderful APOD and/or Mars Rover images.
+Earth monitoring.
+Astronomy Picture of the Day
+I need one more key to test my Android app client for Mars Rovers, while using pagination and if there are no photos for a specific camera I run through 1000 empty calls on a single app in minutes...
+For learning about using web services for an Android Applicaion
+Auburn Hackathon
+Using APOD with chat bots to supply astronomy picture during conversations.
+in mobile application 
+Teaching with the APOD API.
+Web design class project
+school
+Hopefully to make a interesting web application to showcase NASA data.
+Training
+I am going to try to write a Twitter Bot that posts an image with an inspirational quote written on it.
+Academic Project
+learning Android programming from https://www.raywenderlich.com/126528/android-recyclerview-tutorial
+I will be using the API for instructional material at the UCF coding bootcamp. 
+My website
+Lobby Display
+get pictures
+android app tutorial
+I would like to build an Amazon Alexa skill that will display to the user the APOD.
+Study
+demonstrations
+For a personal telegram bot
+Deveoping a progressive web app that will alor data to be cached for offline use. 
+I learn how to create an amazing mobile app with react-native and API.
+for education only
+Test program
+In my Android apps
+to display the pic of the day. there is also a date search feature for past PoD pictures
+personal study & development
+Get pictures
+Learning about the cosmos
+Looking to explore space
+Playing around with it
+student projects
+Building image gallary from image of the day
+experiment in android
+I plan to use the APIs for a student project in web development certificate program.
+android application
+for my studies as a webdeveloper with REST api
+For making sites that inform people on interesting things to do with the location of satellites (like the ISS).
+to serve info from the api to people who make queries
+For an Open Source Twitter bot that tweets pictures from the Mars Rover. Bot at https://twitter.com/mars_rover_pics, source code at https://github.com/odeke-em/mars-rover-twitter-bot
+To build an iOS app that tracks near asteroid events
+Mostly using this for learning purposes, but I would like to try and make an educational site with the Mars Rover API.
+ have fun with it
+doselect
+Build projects for my portfolio.
+Experiments
+create a site which provide 2D view and 3D view of curiosity - like google street view on mars
+https://iss.radziejewicz.com/
+Hobby data and image analysis
+Hobby coding 
+I'm a tech journalist writing an article on how to use a web framework. I wanted to demonstrate this by creating an app that used the NASA API.
+Post beautiful images of space on social media 
+Personal viewing, some training on how to create restful api consumers
+Download APOD each day to set as wallpaper on smartphone.
+"I plan on a once a day refresh (after live testing of course) to set the background on an information dashboard viewed only in my living room. 
+My current implementation of this dashboard is located at https://github.com/Version3/DashPi"
+Study
+only for good
+to test cloud computing
+I want to download the daily APOD image
+Android practicing 
+apod/mars application
+Educational Uses
+I'm using the API to prototype connected garments that let wearers to sense the space.
+Personnal use
+For React-Native Fetch API Tutorial
+for a test
+Personal web site
+Free App for G Play Store
+Data Science, Machine Learning
+Not going to do much just analyze data
+Educational Resource
+Software development - Web applications 
+fun
+fun and frolic
+I'm writing commands for our dev team Slack channel hubot (https://hubot.github.com/) that use the NASA APIs. I expect that the request volume won't typically exceed the DEMO_KEY limits, but while I'm writing the commands I'm hitting it more often to test things.
+Personal website
+As data for demo apps
+Testing an app
+Playing with the nasa-pod example  on https://gitcub.com/reflex-frp/examples. The goal is to learn how to use the xhr request
+"for application sample
+"
+art project
+For app development on Web and Android portal
+Develop
+Edu
+Get APOD for wallpaper
+Android app
+fun
+Academic projects
+to learn
+At first, I want to use the API to make programs that use the daily pictures for recreational purposes (I'm a programming student), but seeing all the data I can get from the APIs, I see there is no limit what someone can do with the information. Statistics, reports on the day, maybe even art.
+Hobby
+on my website
+personal/educational purposes
+To do a simple app that will use javascript service workers.
+School
+"I would like to use the apis to create visually beautiful and entertaining apps for iOS (and maybe tvOS as well).
+Thank you,
+Faris Razak"
+for research and school projects 
+just for fun
+Blah blah!
+For personal projects
+training purpose
+testing
+Non-commercial, personal projects
+I'd like to make a nice interface for the Astronomy Picture of the Day.
+to follow android programming tutorial
+For getting to know how fetching data works. (Student)
+Test Tutorial App for Android - not to be checked into Play store or published.
+mobile Apps Development
+Workshop/education
+on site weather http://meteofabro.altervista.org/
+Fun app for my dad who loves space/the space program.
+testing
+android recycler view tutorial
+Personal development
+www.astronomying.com
+These api will be used for educational mobile apps throughout the world.
+Downloading images for wallpaper for now, more projects later
+Information to be displayed on website
+To learn how to work with JSON API in Python as a part of a certificate course in our college. Name of course is "Data Analysis using Python'. Happening at Christ University, Bangalore, India
+for student work
+As a hobby.
+For good
+For a school project in programming school :)
+Android development
+Working on using API's in node.js
+FunWithRADStudio TEST
+Personal sandbox as I learn web dev
+Weather website
+For project at Stanford University.
+Computer Science University Project
+Example page
+For my IA.
+For a nearEarthObjects add on block to my weather website www.komokaweather.com/j-template
+Universal Windows App
+I'am using it for an app in my Computer Science class.
+To view an App on my website
+Personal Web Data for display
+As part of an ability of a bot we're building for our community of developers, we'd love to fetch pictures, daily, from APOD.
+for a web service testing
+to provide an iOS/Android app which shows the cool pictures that this API provides
+Interested in data & images.
+I am a producer of space themed mobile games for iOS and Android. Our first game is called "DWARF: Reach For The Stars" (playdwarf.com). As we have speaking engagements, we often speak of our game's inherit tie to science and technology. So as a way to push STEM while providing additional interesting content, I would like to provide this content on a new blog we are creating.
+To demonstrate API usage to my computer science students at norco community college.
+For a school project.
+Building website using you api
+Would like to get the daily image of space!
+Get APOD!
+Mostly internal use
+"I want to use it on website 
+http://www.tomsweatherservices.co.uk/meteo/template/indexDesktop.php"
+Research.
+http://www.imaginaryalbum.com with full attribution
+Produce a twitter bot.
+Educational
+Display NASA images...
+Just a little Kodi Screensaver (personal use)
+To publish photos to Twitter
+personal weather station and website (non-profit)
+exploration
+school project
+In meteo station
+the request is for personal usage
+A Universal Windows Platform app.
+Pull data for a game.
+PWS Website
+I'm using the key for a project in school.
+android app
+I will use with my weather station web.
+Planning to build a Mobile App that will provide the rover images. I have built a lot of apps on the Mobile platform, this will be the most informative one.
+Homework Project
+Just for the university project. I'll just want to learn how api works.
+personal web page meteostation
+Art
+I'm developing a mobile app to download pictures from the APOD web service to display them. The purpose of this app is educational.
+A screensaver website I'm developing for Playstation 4.
+I m working on a school project where we are using some public API and create a website describing how to use the API and get practice with using it in the process. 
+Playing with my own small web sites for fun
+Webpage testing
+to let the community know about near earth objects
+Windows 10 app for public use - free app with ads.
+For my website
+I want the header of my portfolio (caudelldevelopment.com) to display the Astronomy Image of the Day in the Header.
+Learning how to use API's but with interesting content.
+stduy
+For my Homepage use in MeteoTemplate
+all
+Personal learning
+To create astronomy themed dashboards
+as a simple page just to practice how API works
+private
+I'm following along with an online tutorial to learn Android development and the author uses this api for the tutorial project.
+I'm creating a theoretical redesign of the NASA Astronomy Picture of the Day Page. It's mostly for fun, but also will be used in my online design portfolio.
+Wikipedia data tests
+for school
+statistical research with R
+I am a front-end web developer student, looking to create a web app that retrieves APOD imagery and presents it the user in an interesting way. :)
+APOD script
+a traves de una web de meteotemplate
+Web Applications 
+Testing
+Coding practice
+Telegram bot.
+I don't know yet
+learn api's methods
+Personal use.
+Educational purposes
+Study and practice
+chatbot
+Creating a free web-app to calculate NDVI and WDRVI in a given polygon using Shiny.
+Academic
+College Project
+learning projects
+"Providing a web service to render various NASA API as reusable html widgets.
+"
+Learn to use an API and later put it on lannqvist.se or the local astronomy club kumlaastronomi.se
+I want to improve my knowledge of programming languages and would like to create a personal web application from your API.
+To make sample apps (AngularJS) for my personal website - non-commercial. This is to demonstrate my skills to potential employers.
+To dazzle visitors to my site with space based wonderment
+Training
+On my weather website www.data.bobhatcherweather.com
+I want to help my country .. my country is fired
+For studying purposes only
+"As a service in my mobile app to pull https://api.nasa.gov/planetary/apod
+This is part of my project fin Web Technologies and Programming in Galway-Mayo Institute of Technology, Ireland"
+Personal weather station monitoring
+Education
+I love the APoD pictures and want to write a script to get the latest APoD and set it as my desktop wallpaper
+Building an web app while learning Angular2, and having an outside api to access
+For Explorning space !
+Creating websites to show off the data supplied by NASA.
+Send daily picture of day to group message
+Making app/websites to share information
+to make a web application that organizes the Mars Curiosity rover images by camera as part of my Galvanize Web Development Immersive Q1 Project.
+test
+"Hy
+I'm studying javascript in a school.
+and we have to work with HTTPRequest and the APIs.
+Bests Regards  "
+training to test APIs
+asteroids name scheme for unique user names 
+"For my MSc webdevelopment coursework creating a website on space
+"
+android app
+School related, data project
+In Android APP
+study
+LOCKVIEW APP PRODUCTION VERSION.
+I am going to write an application that will set the desktop background to whatever the APOD is that day. 
+student and open source visualisation projects.
+learning programming
+Data analysis.
+on my Blog 
+Class
+For a software demo of my conversational AI bot 
+Small personal programming project
+Code demos for React Router (https://reacttraining.com/react-router/)
+123
+exploring space
+Personal use on the background of a home dashboard.
+learn
+testing
+I develop an Open Source webmail program called Cypht (cypht.org). I would like to build an add-on that provides users with an APOD feed using your API. 
+android development
+Demo projects
+To develop the new HEASARC web app and related contents.
+Raspberry pi 3 disply will show data obtained from api's for a wake-up routine.
+curiosity
+Web development practice.
+APOD for wallpapers
+I'm learning javascript and how to use API's, so I am going to build a gallery page from the Mars rover images API, if that's ok.
+Dev purpose
+to download and rotate through the APOD at work.
+for learning purpose
+I will use it as a background image to my web and desktop applications. Thanks already for that!
+Amateur science divulgation
+Testing
+make a demo of android app
+Personal interest
+Personal use
+For a class project.
+Sample learning
+For personal enrichment and learning projects.
+I'm exploring uses of different APIs for my upcoming project at a programming bootcamp; I hope to create visual data from NASA APIs for a simple web application using JavaScript and Ruby on Rails.
+We will create apps on our platform that allows people to access these APIs from their mobile devices
+For use in a discord bot
+create something interesting
+Educational Purposes 
+learning
+I want to use to practiced with NASA's images and codes
+Educational purposes.
+On personal projects to learn new programming languages but with interesting data.
+School project 
+Honestly, just to geek out on the data, and look at the pictures.
+JSON
+To learn how to call APIs in Javascript 
+practice for a class
+Development
+"Facebook BlueMarble bot
+https://web.facebook.com/bluemarblebot"
+web app(s) for personal online portfolio and the fun of creation
+Create a lightbox with the APOD API
+Study
+Get image and him description for test code in Objective - C
+"To my personal pleasure : 
+- Learn to use an API Json
+- See your amazing images"
+demonstrating for students?
+for demo purposes
+I want to use the following test program.https://community.embarcadero.com/competitions/14-fun-with-delphi-nasa-api-mash-up
+educashun
+I'll use the API to develop a mobile App.
+Test
+s
+"An app that queries the APOD and allows the user to set the colours found on the picture as the lights on their house using a Phillips HUE bulbs. 
+I have already asked for a key, but I lost it."
+pull 1 week worth of images to display on live photo frame
+Weatherstation
+Personal use
+retrieve imagery
+Experimentation with APIs
+For educational purposes
+for exploring space
+I'm using it for a web development class. I'm building a website around your picture of the day api and will share with my school. I also love astronomy!
+I want to build an educational Android app that teaches people about our solar system. I want to add a feature to show the Rover images to show how beautiful Mars is.
+Chatbot functionality for retreiving satellite imagery 
+Educational purposes
+i want to learn how to use apis
+Learning
+Private website
+Just to try out some api calls for private use only.
+programming
+For tutorial purposes
+To my developer projects
+for testing purposes.
+Hobby
+build cool apps!
+"to make my project with space news 
+"
+For personal use
+Tutorials on android recycle view :) 
+testing postman
+I want to display Mars Rover photos.
+I have a Telegram APOD bot and I want to improve it with the API.
+to practice using apis
+Learning or New Technology. :)
+To teach myself how to use APIs by working with interesting things like NASA APOD
+astronomy site
+"HI, lads!
+it will be great if i could use APIs for my college project about data visualization
+I will be appreciated "
+Astronomical Reduction and Analysis (Phometry, Astrometry . . .)
+For educational purpose
+In personal projects using the Salesforce platform. 
+For and Android app
+To showcase how to interact with a very well implemented REST API, while also showcasing NASA 's APIs and Open source initiatives.
+Hellobot.fr chat bot :)
+I'm curious and i want to learn front-end web developpment
+for learning computer science
+For homework in NYU ITP.
+Alexa Query
+create app
+Testing swagger implementation
+For learning
+Fun :) 
+I want to use for educational propuse
+For personal use
+Auto background
+JSON requests for my Asteroid App that is already in Production. 
+I'd like to display the APOD embedded in our company's internal portal site.
+educational 
+I'm a web developer / instructor at General Assembly, teaching a web development immersive 'bootcamp'. I'd love to use this API in my lessons to teach about API consumption, and out of curiosity would love to play with data visualization.
+Personal website. Practice using api.
+"
+"
+Education
+Android tutorial work
+Fun!
+I will be using the APIs to create a How-To guide for a class project. Essentially a guide to getting the APIs up and running with examples to explain the process for someone with no previous API experience.
+Interface to Amazon Alexa for planetary data
+I will make use of this open API (Thank you NASA) to practice my React-Native programming with a live API so then I can connect with my work's API in the App I am developing.
+School Project
+Display pictures of space
+For educational purposes
+demo for a workshop
+I'm using it for personal apps as I teach myself how to code.
+    
+For developping mobile application and try connect one of API.
+Course
+"to learn android programing development which can be find in here :
+https://www.raywenderlich.com/126528/android-recyclerview-tutorial"
+trying to create simple nasa app
+Exploring available API in search for some ISS location api,
+Getting APODs into IRC/Slack
+Familiarizing with the API.
+"Improve web development skills.
+Make interesting data driven apps with ruby on rails."
+For my Applications. For now, I don't have any idea what kind of application I am going to build, but will figure out ;)
+Fun
+"The APIs will be used to display Near Earth Object and Comet data to the user through a responsive web application.  The user will input criteria that affects which objects will be displayed.
+This is a student project as part of a web development program.
+Thank you!"
+I wanna use it to get the weather updates on the Android app that I am developing.
+discord bot
+To learn 
+Web Applications
+For educational use. I am a student at UConn majoring in computer engineering and would like to learn more about API use.
+I teach people how to do iOS development, and would like to use the Nasa APIs in my curriculum materials.
+I'm a chinese Android developer. I will use APIs to create a APP that would show something cool to my friends.
+Education
+didactic project 
+Create iOS App
+To share open source code, facts about space, promote space exploration and creative pursuits of the public on my website aeronautics.io
+Development/Tutorial Purpose
+for educational purposes - training
+"Embarcadero Technologies is having an App building competition. I am going to enter :D
+#FunWithDelphi: NASA API Mashup
+https://community.embarcadero.com/competitions/14-fun-with-delphi-nasa-api-mash-up
+You can have a little fun with Delphi and C++Builder in the new year by entering into our #FunWithDelphi contest! Delphi makes it fast and easy to build REST clients using powerful built in components like TRESTClient and TRESTResponseDataSetAdapter. You can easily load up the JSON data retrieved from a REST API into in-memory components like TFDMemTable. Finally, you can use LiveBindings to visually display the data in your apps with very little code required. 
+We are excited to see what creative ways the Delphi and C++Builder community can come up with to utilize the REST libraries so we are announcing a contest where you can showcase your best REST client mashup using the NASA API. Shout out to Asbjørn Heid for the contest idea! Disclaimer: This contest is not sponsored or approved by NASA."
+build apps with them
+for app
+data engineering/datascience project 
+Computer Science Data Structures Homework.
+To retrieve and display photos taken by mars rover.
+study
+New to APIs and wanted to use these for exploration -
+experimental
+Still the idea is not fixed..., but gonna be cool... :)
+University Project
+Student web project
+I would like to use the APOD api to display the APOD in a simple single web app built with Agularjs
+for the images and descriptions on a school project
+educatoin
+Learning, development, non-commercial
+"School Project
+"
+college work
+Web dev project
+"Fun / Learning project
+"
+Develop a stargazing app for iOS users.
+nasa image of the day
+For an example android project
+I'm going to create an application where you can show images using various APIs and people can share them over their social networks or use them as wallpaper for their devices. While they are informed of what happened in space thanks to this information.
+Mars Rover photo viewer learning project
+Create some custom Slack integrations for things like the APOD
+For Edu Purpose
+To make a simple android app.
+Private Weather Site
+for astronomy data
+education
+Creating my android application
+I'm using it for testing purpose.
+APOD
+for android app learning
+To use in a final project in my programming class about APIs and Python
+For private data analysis and making public shiny applications.
+In Educational iOS Apps
+Education/School
+Want to play around with the data and maybe develop some android app.
+Me and a friend are creating a small app to test our Android Dev skill :D
+Auburn Hackathon hosted by Equifax
+For educational use. Currently attending college at Purdue University. Would love to work with NASA APIs.
+educational purposes. learning how to use APIs
+Developing mobile android app which will act as image browser for MSL rover. In future I might extend this for MERs as well.
+For NASA slack bots, starting with an APOD bot.
+class project
+Making a NodeJS library for this API.
+Developing an application/website that displays Mars weather, pictures, and data in an easy to view platform. We are a group of 4 at the CNM Stemulus Center Deep Dive Coding Bootcamp.
+To test my knowledge of React. Just learning it.
+for public reason
+Hobby projects
+I wand to get the news and image feeds from the site so that i can post them under nasa section in my upcoming personal website
+I will try to make something beautiful.
+For NASA sponsored websites ;) Hi Jason!
+"Hello!
+I'm Gabriele D'Arrigo, an italian guy, and I like to develop Javascript application.
+I'd really love to create a simple app that show the Astronomy Picture of the Day.
+Thank You
+Gabriele
+"
+University projects
+I will use my api key to make a app on MIT app inventor for a school project
+Personal Use
+I want to create android application that plays space sounds. SoundCloud has already approved my app and gave me api key. 
+I don't know, but I'm excited!
+For a personal project that use chatbot to get latest NASA images
+Coding attempts using WINCRT, BOOST, WIN10 1607ver OS Build 14393.693, Intel(r)Core(TM)i5 CPU x32 on x64 processor
+Academic research
+Workflow, Tasker, entertaining myself with cool stuff. 
+Education in a science museum.
+Build a portal to all APIs under the same domain name.
+I use for my news api
+Learning to use API / displaying the APOD
+studying
+For use on personal weather website
+on our astronomy clubs website
+I am beginning iOS app development and would like to write an app for displaying NASA APOD data. I hope to inspire and amaze my children (and myself) by being able to access and interact with NASA data. Thank you.
+University
+Sou apaixonado pela NASA, e todo conteúdo gerado (ou mantido) por vocês é inacreditável. Quero aproveitar esta estrutura para criar aplicativos que permitam, ao usuário, uma incrível experiência de navegação por esses dados. Muito obrigado por esta oportunidade.
+To learn how to use API for various twitter based functions
+Educational
+Education
+For my educational homework android app
+Teaching API development at c4q.nyc
+I'm learning Android programming. I'm using the APIs in a related tutorial.
+I will use the API for a school project 
+Delphi community contest
+educational purpose
+Educational purpose
+i learning Json and rest connection technique.
+Will use it to provide cool space themed imagery for chrome extensions and/or mobile apps.
+"testing
+"
+Android Application
+Android app
+ios app
+ss
+A demo API key with lower, IP address limits, for use in our documentation and sample URLs.
+I'm studying computer engineering in college and I just want to practice my web-related programming skills, and I've always been interested in astronomy and space stuff.
+To learn API access using Ruby on Rails
+Fetch apod
+University course
+For Fun
+for illustrating a website.
+learning Android
+For our mobiles as wallpapers for the lockscreen
+For an iPhone application
+I'll use a placeholder/fpo from my local
+To entice and open my viewpoint for joy of knowledge.   On my iPad while camping and homeless.
+I want to make an android app, since am learning android development from the past 3-4 months, now I want to build something real.
+School project java program used to track astroids
+I'm a developer in love with science, I would like to show the world how fun science can be
+programming competition
+learning app
+School project
+School
+app development
+in my sample application
+testing
+Android practice
+for Mobile Phones
+I'm a student and would like to use the API to practice making API calls and retrieving data. 
+education
+Weather app programming.
+Class project
+Free and opensource Androdi app
+Wallpaper of the day?
+personal webpage
+I want to use to get international space station live streaming.
+Student project, learning how to use APIs in a JavaScript class. 
+"to solve given problem in doSelect
+"
+tutorial project in android development
+"Downloading EPIC imagery and metadata for my application Blueturn:
+http://app.blueturn.earth"
+I'm not super sure yet, but I would like to grab a bunch of imagery programatically for featuring on my link sharing site coming (hopefully) later this month @ www.nonforum.com ... I think this will be a good opportunity to learn about how to incorporate web APIs and also showcase some work to potential employers.
+Estudos sobre WebService REST
+For researching about stars and their orbits.
+Will use APIs to get the actual information of the planets.
+connecting space
+education
+For learning from your API design decisions.
+Develop educational apps
+for my wallpaper
+Using images for teaching purposes at a tech school (building mobile apps accessing APOD api).
+for my MSc thesis in astrophysics 
+For training purposes
+school
+"How dare you ask sure a question! That's personal! 
+But honestly I'm not sure. I just want to grab some data from somewhere and display it on my own app. Since NASA has some of the most interesting data I decided to have a look."
+I'm a programmer and lover of Astronomy
+Assist with my sons astronomy/physics  projects/classes
+Teaching
+desktop background.
+I am a developer I would like to use the api services
+For commercial web analysis and scientific research.
+for making educational and free apps
+Making Data visualizations with D3
+For my Star Gazing website
+Training
+"I will use this api key to render data for users over an android app. Key is to educate user and avail as as much info as possible.
+"
+Inferential analysis for a statistics data science class 
