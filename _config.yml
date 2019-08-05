@@ -1,6 +1,0 @@
-destination: ./_site
-lsi:         false
-port: 4000
-highlighter:   rouge
-permalink:   date
-title_prefix: "dan hammer"

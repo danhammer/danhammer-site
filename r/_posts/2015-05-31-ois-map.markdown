@@ -1,8 +1,0 @@
----
-layout: post
-title: "The value of open APIs"
----
-
-I recently [wrote a simple REST API](http://www.danham.me/r/2015/01/02/ois-api.html) to structure information on officer involved shootings.  Soon after, [Ramesh Nair](https://github.com/hiddentao/), an amazing developer from London or Tapei or somewhere else, [wrote a web app](https://github.com/hiddentao/ois-incidents-map) on top of the API.  With this map, the information is easy to understand for non-developers -- the people that make decisions on open policing.  The full web-based map is [here](http://hiddentao.github.io/ois-incidents-map).
-
-<iframe width='100%' height='400' frameborder='0' src='http://hiddentao.github.io/ois-incidents-map/'></iframe>
