@@ -279,7 +279,7 @@
         var text = raw.trim();
         if (!text || busy) return;
         history.push(text); hIndex = history.length;
-        var cmd = COMMANDS[text.split(/\s+/)[0]];
+        var cmd = text === '?' ? COMMANDS['/help'] : COMMANDS[text.split(/\s+/)[0]];
         if (cmd && cmd.silent) { cmd.run(); return; }
         var e = entry(text);
         if (!cmd) {
@@ -302,7 +302,11 @@
           });
       }
 
-      input.addEventListener('input', function () { sel = 0; render(); });
+      input.addEventListener('input', function () {
+        // Like Claude Code, "?" on an empty prompt lists commands right away, no Enter needed.
+        if (input.value === '?') { input.value = ''; render(); submit('?'); return; }
+        sel = 0; render();
+      });
       input.addEventListener('keydown', function (ev) {
         var m = matches();
         if (ev.key === 'Enter') {
