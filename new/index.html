@@ -32,7 +32,7 @@
     .term { padding: 16px 0 40vh; }
     .pad { padding: 0 16px; }
 
-    /* ASCII banner (figlet "ICL-1900": the name punched into a computer card), punched in on load */
+    /* ASCII banner (figlet "ICL-1900": the name punched into a computer card), printed top to bottom on load */
     .banner { margin: 0 0 1.25em; font-weight: 400; font-size: inherit; color: var(--accent); }
     .banner pre { margin: 0; font: inherit; line-height: 1.15; font-size: min(1em, calc((100vw - 32px) / 17 / 0.61)); }
 
@@ -121,17 +121,16 @@
   </template>
 
   <script>
-    // Punch the banner in column by column, like a card going through a punch.
+    // Print the banner in line by line, top to bottom.
     (function () {
       var art = "Dan Hammer, Ph.D.\n**  **  * *  ****\n  *   ** *  *\n\n *   *\n\n              * *\n*     **       *\n  *     *\n          *\n            *\n    *     *  ** *\n         *".split('\n');
       var el = document.getElementById('banner');
-      var width = Math.max.apply(null, art.map(function (l) { return l.length; }));
-      art = art.map(function (l) { return l + ' '.repeat(width - l.length); });
-      function show(cols) { el.textContent = art.map(function (l) { return l.slice(0, cols); }).join('\n'); }
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { show(width); return; }
-      var col = 0;
+      // Pad with blank lines first so the layout below doesn't jump as rows appear.
+      function show(rows) { el.textContent = art.map(function (l, i) { return i < rows ? l : ' '; }).join('\n'); }
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { show(art.length); return; }
+      var row = 0;
       show(0);
-      var t = setInterval(function () { show(++col); if (col >= width) clearInterval(t); }, 70);
+      var t = setInterval(function () { show(++row); if (row >= art.length) clearInterval(t); }, 90);
     })();
 
     (function () {
