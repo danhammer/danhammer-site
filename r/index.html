@@ -253,12 +253,14 @@
         el.innerHTML = art.map(function (l, r) { return r < rows ? line(l, r, spans) : ' '; }).join('\n');
       }
 
-      // Once printed, fade one hole at random to white. Clicking the white hole washes the others
+      // Once printed, fade one of the name card's holes to white. Clicking the white hole washes the others
       // into a rainbow rippling outward from it; clicking again ripples back.
       function holes() {
         show(art.length, true);
         var spans = Array.prototype.slice.call(el.querySelectorAll('.hole'));
-        var seed = spans[Math.floor(Math.random() * spans.length)];
+        // The white hole is always one of the name card's (columns before the gap).
+        var mine = spans.filter(function (h) { return +h.dataset.c < KIND - 4; });
+        var seed = mine[Math.floor(Math.random() * mine.length)];
         var r0 = +seed.dataset.r, c0 = +seed.dataset.c, rainbow = false;
         // Distance in character widths; a line is about twice as tall as a character is wide.
         spans.forEach(function (h) {
