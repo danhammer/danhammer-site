@@ -32,9 +32,9 @@
     .term { padding: 16px 0 40vh; }
     .pad { padding: 0 16px; }
 
-    /* ASCII banner (figlet "ICL-1900": the name punched into a computer card), printed top to bottom on load */
+    /* ASCII banner (figlet "ICL-1900": the name punched into a computer card, beside a holes-only card for "Be kind, be kind, be kind"), printed top to bottom on load */
     .banner { margin: 0 0 1.25em; font-weight: 400; font-size: inherit; color: var(--accent); }
-    .banner pre { margin: 0; font: inherit; line-height: 1.15; font-size: min(1em, calc((100vw - 32px) / 17 / 0.61)); }
+    .banner pre { margin: 0; font: inherit; line-height: 1.15; font-size: min(1em, calc((100vw - 32px) / 46 / 0.61)); }
 
     /* Transcript */
     .entry { margin: 0 0 1.25em; }
@@ -126,7 +126,7 @@
   <script>
     // Print the banner in line by line, top to bottom.
     (function () {
-      var art = "Dan Hammer, Ph.D.\n**  **  * *  ****\n  *   ** *  *\n\n *   *\n\n              * *\n*     **       *\n  *     *\n          *\n            *\n    *     *  ** *\n         *".split('\n');
+      var art = "Dan Hammer, Ph.D.\n**  **  * *  ****    **  * ** **  * ** **  * *\n  *   ** *  *           * *      * *      * *\n\n *   *\n                     *  *     *  *     *  *\n              * *\n*     **       *           *        *        *\n  *     *             *   *    *   *    *   *\n          *                 *        *\n            *\n    *     *  ** *           *        *\n         *               *        *        *".split('\n');
       var el = document.getElementById('banner');
       // Pad with blank lines first so the layout below doesn't jump as rows appear.
       function show(rows) { el.textContent = art.map(function (l, i) { return i < rows ? l : ' '; }).join('\n'); }
