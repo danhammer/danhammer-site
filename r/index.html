@@ -404,8 +404,9 @@
         : /Chrome|CriOS/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : '';
       var started = Date.now();
 
-      // Approximate city from the visitor's IP via iplocate.io (free, no key), marked "(VPN)" when it flags a VPN.
-      // Until it answers, or if it fails or is blocked, show the browser's time zone instead.
+      // Approximate city from the visitor's IP via iplocate.io (free, no key), with a note on the kind of
+      // connection when it's anything but a plain ISP. Until it answers, or if it fails or is blocked, show the
+      // browser's time zone instead.
       var STATES = { Alabama: 'AL', Alaska: 'AK', Arizona: 'AZ', Arkansas: 'AR', California: 'CA', Colorado: 'CO',
         Connecticut: 'CT', Delaware: 'DE', 'District of Columbia': 'DC', Florida: 'FL', Georgia: 'GA', Hawaii: 'HI',
         Idaho: 'ID', Illinois: 'IL', Indiana: 'IN', Iowa: 'IA', Kansas: 'KS', Kentucky: 'KY', Louisiana: 'LA',
@@ -424,11 +425,25 @@
           .then(function (g) {
             if (!g || !g.city) return;
             var where = g.country_code === 'US' ? STATES[g.subdivision] || g.subdivision : g.country;
-            place = '~' + g.city + (where ? ', ' + where : '') + (g.privacy && g.privacy.is_vpn ? ' (VPN)' : '');
+            var note = connection(g);
+            place = '~' + g.city + (where ? ', ' + where : '') + (note ? ' (' + note + ')' : '');
             tick();
           })
           .catch(function () {});
       } catch (e) {}
+      // The most telling thing about the connection, or '' for an ordinary ISP.
+      function connection(g) {
+        var p = g.privacy || {}, co = g.company || {};
+        if (p.is_tor) return 'Tor';
+        if (p.is_vpn) return 'VPN';
+        if (p.is_icloud_relay) return 'iCloud Private Relay';
+        if (p.is_proxy) return 'proxy';
+        if (p.is_hosting) return 'data center';
+        if (g.is_satellite) return 'satellite';
+        // e.g. a gym's or office's Wi-Fi: "business: Equinox"
+        if (co.type && co.type !== 'isp') return co.type + (co.name ? ': ' + co.name : '');
+        return '';
+      }
       function uptime() {
         var t = Math.floor((Date.now() - started) / 1000), h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60;
         return 'up ' + (h ? h + 'h ' : '') + (h || m ? m + 'm ' : '') + (t % 60) + 's';
