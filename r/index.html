@@ -146,7 +146,7 @@
     <div class="dock">
     <div class="prompt">
       <span class="sign">❯</span>
-      <div class="line" aria-hidden="true"><span id="typed"></span><span class="cursor"></span><span id="ph" class="placeholder">Try "/bio"</span></div>
+      <div class="line" aria-hidden="true"><span id="typed"></span><span class="cursor"></span><span id="ph" class="placeholder">Try "/bio" or press Enter</span></div>
       <input id="input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Command">
     </div>
     <div class="menu" id="menu" hidden></div>
@@ -534,7 +534,8 @@
         var m = matches();
         if (ev.key === 'Enter') {
           ev.preventDefault();
-          var v = m.length ? m[sel] : input.value;
+          // Enter on an empty prompt runs /bio.
+          var v = m.length ? m[sel] : input.value.trim() || '/bio';
           input.value = '';
           render();
           submit(v);
