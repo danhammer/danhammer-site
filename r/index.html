@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
   <title>Dan Hammer</title>
   <meta name="description" content="Dan Hammer — environmental data science.">
   <meta name="color-scheme" content="dark">
@@ -21,7 +21,7 @@
     }
 
     * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; background: var(--bg); }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); }
     body {
       color: var(--fg);
       /* Console-sized type: fixed, never scales up with the window */
@@ -31,7 +31,23 @@
     a:hover { text-decoration: underline; text-underline-offset: 2px; }
     ::selection { background: #264f78; }
 
-    .term { padding: 16px 0 40vh; }
+    /* The terminal fills the visible frame (--vh tracks it as mobile keyboards open and close). The transcript
+       grows and pushes the prompt down until the prompt is 80% of the way down; after that the prompt stays put
+       and the transcript scrolls above it. */
+    .term {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--vh, 100dvh);
+      padding-top: 16px;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .scroll {
+      flex: 0 1 auto; min-height: 0;
+      max-height: calc(var(--vh, 100dvh) * 0.8 - 16px);
+      overflow-y: auto; overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+    }
+    .dock { flex: none; }
     .pad { padding: 0 16px; }
 
     /* ASCII banner (figlet "ICL-1900": the name punched into a computer card, beside a holes-only card for "Be kind, be kind, be kind"), printed top to bottom on load */
@@ -46,10 +62,8 @@
     .entry { margin: 0 0 1.25em; }
     .echo { color: var(--dim); white-space: pre-wrap; word-break: break-word; }
     .echo::before { content: "❯ "; }
-    .reply { display: flex; gap: 1ch; margin-top: 1.25em; }
-    .reply .dot { flex: none; color: var(--fg); }
+    .reply { margin-top: 1.25em; padding-left: 2ch; }
     .done { color: var(--dim); margin-top: 1.25em; }
-    .reply .dot.err { color: var(--err); }
     .reply .body { min-width: 0; white-space: pre-wrap; word-break: break-word; }
     .reply .body p { margin: 0 0 1.25em; white-space: normal; }
     .reply .body p:last-child { margin: 0; }
@@ -122,11 +136,14 @@
   </style>
 </head>
 <body>
-  <div class="term">
+  <div class="term" id="term">
+    <div class="scroll" id="scroll">
     <h1 class="banner pad" aria-label="Dan Hammer, Ph.D."><pre id="banner" aria-hidden="true"></pre></h1>
 
     <div id="log" class="pad" aria-live="polite"></div>
+    </div>
 
+    <div class="dock">
     <div class="prompt">
       <span class="sign">❯</span>
       <div class="line" aria-hidden="true"><span id="typed"></span><span class="cursor"></span><span id="ph" class="placeholder">Try "/bio"</span></div>
@@ -134,6 +151,7 @@
     </div>
     <div class="menu" id="menu" hidden></div>
     <div class="footer-hint"><span id="hint">? for commands</span><span class="status" id="status"></span></div>
+    </div>
   </div>
 
   <!-- Content printed by commands. To add one (e.g. /headshot, /cv), add a template and an entry in COMMANDS. -->
@@ -329,7 +347,29 @@
 
       function tpl(id) { return document.getElementById(id).content.cloneNode(true); }
       function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-      function bottom() { window.scrollTo(0, document.body.scrollHeight); }
+      // Follow the newest text while the reader is at the bottom; if they scroll up to reread, leave them there
+      // until they scroll back down. A new command always jumps to the bottom.
+      var scroll = document.getElementById('scroll'), stuck = true;
+      function bottom(force) {
+        if (force || stuck) { scroll.scrollTop = scroll.scrollHeight; stuck = true; }
+      }
+      scroll.addEventListener('scroll', function () {
+        stuck = scroll.scrollHeight - scroll.scrollTop - scroll.clientHeight < 4;
+      });
+      new ResizeObserver(function () { bottom(); }).observe(scroll);
+      // The wheel scrolls the transcript even when the pointer is over the prompt.
+      document.addEventListener('wheel', function (ev) {
+        if (!scroll.contains(ev.target)) scroll.scrollTop += ev.deltaY;
+      }, { passive: true });
+
+      // Size the terminal to the visible frame, which shrinks when a mobile keyboard opens.
+      var term = document.getElementById('term'), vv = window.visualViewport;
+      function fit() {
+        if (!vv) return;
+        document.documentElement.style.setProperty('--vh', vv.height + 'px');
+        term.style.transform = vv.offsetTop ? 'translateY(' + vv.offsetTop + 'px)' : '';
+      }
+      if (vv) { vv.addEventListener('resize', fit); vv.addEventListener('scroll', fit); fit(); }
       function matches() {
         var v = input.value;
         if (v[0] !== '/' || v.indexOf(' ') !== -1) return [];
@@ -407,10 +447,10 @@
         log.appendChild(e);
         return e;
       }
-      function reply(e, err) {
+      function reply(e) {
         var r = document.createElement('div');
         r.className = 'reply';
-        r.innerHTML = '<span class="dot' + (err ? ' err' : '') + '">⏺</span><div class="body"></div>';
+        r.innerHTML = '<div class="body"></div>';
         e.appendChild(r);
         return r.querySelector('.body');
       }
@@ -464,8 +504,9 @@
         var cmd = text === '?' ? COMMANDS['/help'] : COMMANDS[text.split(/\s+/)[0]];
         if (cmd && cmd.silent) { cmd.run(); return; }
         var e = entry(text);
+        bottom(true);
         if (!cmd) {
-          reply(e, true).innerHTML = text[0] === '/'
+          reply(e).innerHTML = text[0] === '/'
             ? 'Unknown command: ' + esc(text) + '. Type <span class="cmd">/help</span> to see what’s available.'
             : 'I only answer a few commands here. Try <span class="cmd">/bio</span>.';
           bottom();
