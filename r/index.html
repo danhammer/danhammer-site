@@ -100,7 +100,7 @@
       background: transparent;
     }
     .footer-hint { color: var(--dim); margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); min-height: 1.25em; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 2ch; }
-    .footer-hint .status { margin-left: auto; }
+    .footer-hint .status { margin-left: auto; text-align: right; }
     .footer-hint .on { color: #5cc9cb; }
     .footer-hint .off { color: var(--err); }
 
@@ -325,7 +325,7 @@
         var net = navigator.onLine
           ? '<span class="on">●</span> online'
           : '<span class="off">●</span> offline';
-        status.innerHTML = [net, browser, esc(place), uptime()].filter(Boolean).join(' · ');
+        status.innerHTML = [net, browser, esc(place)].filter(Boolean).join(' · ') + '<br>' + uptime();
       }
       tick();
       setInterval(tick, 1000);
