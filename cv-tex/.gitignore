@@ -1,0 +1,7 @@
+# Build artifacts (see build.sh)
+build/
+*.aux
+*.log
+*.out
+*.pdf
+*.synctex.gz
