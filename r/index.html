@@ -37,6 +37,8 @@
     /* ASCII banner (figlet "ICL-1900": the name punched into a computer card, beside a holes-only card for "Be kind, be kind, be kind"), printed top to bottom on load */
     .banner { margin: 0 0 1.25em; font-weight: 400; font-size: inherit; color: var(--accent); }
     .banner pre { margin: 0; font: inherit; line-height: 1.15; font-size: min(1em, calc((100vw - 32px) / 46 / 0.61)); }
+    .banner .name { color: #fff; }
+    .banner pre { overflow: hidden; }
     .banner .hole { transition: color .5s ease; }
     .banner .hole.seed { color: #fff; transition: color 2s ease; cursor: pointer; }
 
@@ -215,22 +217,47 @@
     (function () {
       var art = "Dan Hammer, Ph.D.\n**  **  * *  ****    **  * ** **  * ** **  * *\n  *   ** *  *           * *      * *      * *\n\n *   *\n                     *  *     *  *     *  *\n              * *\n*     **       *           *        *        *\n  *     *             *   *    *   *    *   *\n          *                 *        *\n            *\n    *     *  ** *           *        *\n         *               *        *        *".split('\n');
       var el = document.getElementById('banner');
-      // Pad with blank lines first so the layout below doesn't jump as rows appear.
-      function show(rows) { el.textContent = art.map(function (l, i) { return i < rows ? l : ' '; }).join('\n'); }
       var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Once printed, wrap every hole in a span, then fade one at random to white. Clicking the white
-      // hole washes the others into a rainbow rippling outward from it; clicking again ripples back.
-      function holes() {
-        var html = '', spans = [];
-        art.forEach(function (l, r) {
-          for (var c = 0; c < l.length; c++) {
-            html += l[c] === '*' ? '<span class="hole" data-r="' + r + '" data-c="' + c + '">*</span>' : esc(l[c]);
-          }
-          if (r < art.length - 1) html += '\n';
+      // The "Be kind" card starts at column 21 (17-column name card + 4 spaces). Its first 9 columns
+      // punch "Be kind, ", so repeat them to fill the window's width (measured once, on load).
+      var KIND = 21, UNIT = 9;
+      var probe = document.createElement('span');
+      probe.textContent = '0000000000';
+      el.appendChild(probe);
+      var cols = Math.floor(el.clientWidth / (probe.getBoundingClientRect().width / 10));
+      el.removeChild(probe);
+      var width = Math.max.apply(null, art.map(function (l) { return l.length; }));
+      if (cols > width) {
+        art = art.map(function (l, r) {
+          if (r === 0) return l;
+          var unit = (l + ' '.repeat(width)).slice(KIND, KIND + UNIT), tail = '';
+          while (tail.length < cols - KIND) tail += unit;
+          return ((l + ' '.repeat(width)).slice(0, KIND) + tail.slice(0, cols - KIND)).replace(/\s+$/, '');
         });
-        el.innerHTML = html;
-        spans = Array.prototype.slice.call(el.querySelectorAll('.hole'));
+      }
+
+      function esc(ch) { return ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch === '&' ? '&amp;' : ch; }
+      // Row 0 is the name, always white; with `spans`, every hole gets its own element.
+      function line(l, r, spans) {
+        if (r === 0) return '<span class="name">' + l.split('').map(esc).join('') + '</span>';
+        if (!spans) return l;
+        var html = '';
+        for (var c = 0; c < l.length; c++) {
+          html += l[c] === '*' ? '<span class="hole" data-r="' + r + '" data-c="' + c + '">*</span>' : esc(l[c]);
+        }
+        return html;
+      }
+      // Pad unprinted rows with a space so the layout below doesn't jump as rows appear.
+      function show(rows, spans) {
+        el.innerHTML = art.map(function (l, r) { return r < rows ? line(l, r, spans) : ' '; }).join('\n');
+      }
+
+      // Once printed, fade one hole at random to white. Clicking the white hole washes the others
+      // into a rainbow rippling outward from it; clicking again ripples back.
+      function holes() {
+        show(art.length, true);
+        var spans = Array.prototype.slice.call(el.querySelectorAll('.hole'));
         var seed = spans[Math.floor(Math.random() * spans.length)];
         var r0 = +seed.dataset.r, c0 = +seed.dataset.c, rainbow = false;
         // Distance in character widths; a line is about twice as tall as a character is wide.
@@ -243,12 +270,11 @@
           rainbow = !rainbow;
           spans.forEach(function (h) {
             if (h === seed) return;
-            h.style.transitionDelay = still ? '0s' : (h.dist * 25) + 'ms';
+            h.style.transitionDelay = still ? '0s' : Math.round(h.dist / max * 1500) + 'ms';
             h.style.color = rainbow ? 'hsl(' + Math.round(h.dist / max * 300) + ', 85%, 65%)' : '';
           });
         });
       }
-      function esc(ch) { return ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch === '&' ? '&amp;' : ch; }
 
       if (still) { show(art.length); holes(); return; }
       var row = 0;
