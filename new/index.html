@@ -136,11 +136,22 @@
     (function () {
       var log = document.getElementById('log');
 
+      // Files live in r/headshots/; add a line here when you add one.
+      var HEADSHOTS = [
+        { url: 'https://danham.me/r/headshots/profile_color.jpg', note: 'color, 1250×1250' },
+        { url: 'https://danham.me/r/headshots/profile_bw.jpg', note: 'black & white, 2000×2000' }
+      ];
+
       // name -> { desc, run(body) }. `instant` skips the thinking spinner; `silent` prints no transcript entry.
       var COMMANDS = {
         '/bio': { desc: 'Print a short bio', run: function (body) { return stream(body, tpl('bio')); } },
         '/cv': { desc: 'Link to my CV (PDF)', run: function (body) {
           body.innerHTML = 'Click to open my CV: <a href="https://danham.me/r/cv.pdf" target="_blank" rel="noopener">https://danham.me/r/cv.pdf</a>';
+        } },
+        '/headshot': { desc: 'List headshot image URLs', run: function (body) {
+          body.innerHTML = 'Headshots available:\n' + HEADSHOTS.map(function (h) {
+            return '  - <a href="' + h.url + '" target="_blank" rel="noopener">' + h.url + '</a> <span class="muted">(' + h.note + ')</span>';
+          }).join('\n');
         } },
         '/help': { desc: 'List available commands', instant: true, run: function (body) {
           body.innerHTML = Object.keys(COMMANDS).map(function (k) {
