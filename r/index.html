@@ -47,7 +47,7 @@
       overflow-y: auto; overscroll-behavior: contain;
       scrollbar-gutter: stable;
     }
-    .dock { flex: none; }
+    .dock { flex: none; position: relative; }
     .pad { padding: 0 16px; }
 
     /* ASCII banner (figlet "ICL-1900": the name punched into a computer card, beside a holes-only card for "Be kind, be kind, be kind"), printed top to bottom on load */
@@ -124,8 +124,10 @@
     .footer-hint .on { color: #5cc9cb; }
     .footer-hint .off { color: var(--err); }
 
-    /* Slash-command menu */
-    .menu { margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); }
+    /* Slash-command menu: floats over the status line (or, if there's no room below, over the transcript above
+       the prompt) so opening it never moves the prompt. */
+    .menu { position: absolute; left: 0; right: 0; z-index: 1; background: var(--bg); padding: 4px 16px 0 calc(16px + 2ch); }
+    .menu.up { bottom: 100%; padding: 0 16px 4px calc(16px + 2ch); }
     .menu .row { display: flex; gap: 3ch; color: var(--dim); cursor: pointer; }
     .menu .row .name { min-width: 15ch; }
     .menu .row.sel { color: var(--lavender); }
@@ -389,6 +391,8 @@
           menu.innerHTML = m.map(function (k, i) {
             return '<div class="row' + (i === sel ? ' sel' : '') + '"><span class="name">' + k + '</span><span>' + COMMANDS[k].desc + '</span></div>';
           }).join('');
+          menu.classList.remove('up');
+          if (menu.getBoundingClientRect().bottom > term.getBoundingClientRect().bottom) menu.classList.add('up');
         }
         hint.textContent = n ? '' : '? for commands';
       }
