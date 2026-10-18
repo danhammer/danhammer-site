@@ -55,6 +55,7 @@
     .group.awards .row { grid-template-columns: 10ch minmax(0, 1fr); gap: 2ch; margin-bottom: 0; }
     .group.awards .row span:last-child { color: inherit; }
     .group.awards .yr { color: var(--dim); }
+    .group.misc .row { grid-template-columns: 1ch minmax(0, 1fr); gap: 1ch; }
     .group .row { display: grid; grid-template-columns: minmax(0, 34ch) minmax(0, 1fr); gap: 2ch; white-space: normal; }
     @media (max-width: 640px) {
       .group .row { grid-template-columns: 1fr; gap: 0; margin-bottom: .4em; }
@@ -177,6 +178,16 @@
     </div>
   </template>
 
+  <template id="misc">
+    <div class="group awards misc">
+      <div class="row"><span class="yr">-</span><span>Team USA, Dragon Boat World Championships; world-record holder, 500 m Open</span></div>
+      <div class="row"><span class="yr">-</span><span>Tour du Teche winner (2010); Key to the City of Breaux Bridge, Louisiana</span></div>
+      <div class="row"><span class="yr">-</span><span><a href="https://victoriaadvocate.com/2011/06/14/water-safari-winners-named/">Texas Water Safari</a>, overall winner of the 262-mile “World’s Toughest Canoe Race” (2011)</span></div>
+      <div class="row"><span class="yr">-</span><span>Speedcuber: fast-solving Rubik’s cubes, personal record 27 seconds</span></div>
+      <div class="row"><span class="yr">-</span><span>NOLS graduate, semester in Patagonia; Wilderness First Responder</span></div>
+    </div>
+  </template>
+
   <template id="bio">
     <p>Dan Hammer is co-founder of <a href="https://lgnd.io/">LGND</a>, which builds AI infrastructure that makes Earth observation data searchable and actionable for people and AI agents, and co-founder of <a href="https://madewithclay.org/">Clay</a>, the open-source foundation model for Earth, where he now serves as Creative Technologist focused on public-interest applications. He is a Fellow at <a href="https://www.renaissancephilanthropy.org/">Renaissance Philanthropy</a>, an Affiliate of the Institutional Data Initiative at the <a href="https://hls.harvard.edu/library">Harvard Law School Library</a>, and co-founder of <a href="https://ode.partners">Ode</a>, a design and technology agency for environmental organizations whose work has earned multiple <a href="https://winners.webbyawards.com/2024/websites-and-mobile-sites/general-desktop-mobile-sites/sustainability-environment/287895/oceans-futures--wwf">Webby</a> and Anthem Awards.</p>
     <p>Earlier, Dan served as Chief Data Scientist at the World Resources Institute, where he helped build the first versions of <a href="https://news.berkeley.edu/?p=65111">Global Forest Watch</a>, as a Senior Policy Advisor in the White House Office of Science and Technology Policy, as a <a href="https://news.berkeley.edu/2014/12/04/dan-hammer-presidential-innovation-fellow/">Presidential Innovation Fellow at NASA</a>, and as a <a href="https://www.ioes.ucla.edu/person/dan-hammer">Senior Advisor at Google X</a>. He has taught as an adjunct at UC Berkeley and Georgetown.</p>
@@ -210,6 +221,7 @@
         '/bio': { desc: 'Print a short bio', run: function (body) { return stream(body, tpl('bio')); } },
         '/work': { desc: 'List places I have worked', run: function (body) { return stream(body, tpl('work')); } },
         '/awards': { desc: 'List awards and honors', run: function (body) { return stream(body, tpl('awards')); } },
+        '/misc': { desc: 'Paddling, cubing, and other facts', run: function (body) { return stream(body, tpl('misc')); } },
         '/cv': { desc: 'Link to my CV (PDF)', run: function (body) {
           body.innerHTML = 'Click to open my CV: <a href="https://danham.me/r/cv.pdf" target="_blank" rel="noopener">https://danham.me/r/cv.pdf</a>';
         } },
