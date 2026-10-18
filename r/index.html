@@ -52,6 +52,9 @@
     .cmd { color: var(--lavender); }
     .group + .group { margin-top: 1.25em; }
     .reply .body .group p { margin: 0; }
+    .group.awards .row { grid-template-columns: 10ch minmax(0, 1fr); gap: 2ch; margin-bottom: 0; }
+    .group.awards .row span:last-child { color: inherit; }
+    .group.awards .yr { color: var(--dim); }
     .group .row { display: grid; grid-template-columns: minmax(0, 34ch) minmax(0, 1fr); gap: 2ch; white-space: normal; }
     @media (max-width: 640px) {
       .group .row { grid-template-columns: 1fr; gap: 0; margin-bottom: .4em; }
@@ -154,6 +157,26 @@
     </div>
   </template>
 
+  <template id="awards">
+    <div class="group awards">
+      <div class="row"><span class="yr">2024–26</span><span><a href="https://winners.webbyawards.com/2024/websites-and-mobile-sites/general-desktop-mobile-sites/sustainability-environment/287895/oceans-futures--wwf">Webby Awards (4x)</a></span></div>
+      <div class="row"><span class="yr">2023</span><span><a href="https://tedxboston.com/portfolio/planetary-stewardship-november-2023/">Planetary Steward, TEDxBoston</a></span></div>
+      <div class="row"><span class="yr">2022, 2024</span><span><a href="https://www.anthemawards.com/winners/list/#sustainability-environment-climate/all/1985/-1">Anthem Awards, Sustainability &amp; Environment</a></span></div>
+      <div class="row"><span class="yr">2019</span><span><a href="https://nature.berkeley.edu/news/2019/03/alumnus-dan-hammer-wins-mark-bingham-award">Mark Bingham Award for Excellence in Achievement by a Young Alumnus, UC Berkeley</a></span></div>
+      <div class="row"><span class="yr">2018</span><span><a href="https://www.nationalgeographic.org/find-explorers/dan-hammer">National Geographic Fellow</a></span></div>
+      <div class="row"><span class="yr">2017</span><span><a href="https://www.ioes.ucla.edu/article/dan-hammer-wins-inaugural-pritzker-award/">Pritzker Emerging Environmental Genius Award</a></span></div>
+      <div class="row"><span class="yr">2017</span><span><a href="https://slides.com/danhammer/ca-waterboards">Keynote Address, California Water Resources Control Board</a></span></div>
+      <div class="row"><span class="yr">2017</span><span>Summer at Census Scholar</span></div>
+      <div class="row"><span class="yr">2015</span><span><a href="https://bids.berkeley.edu">Berkeley Institute for Data Science Fellowship</a></span></div>
+      <div class="row"><span class="yr">2014</span><span><a href="https://news.berkeley.edu/2014/12/04/dan-hammer-presidential-innovation-fellow/">Presidential Innovation Fellowship</a></span></div>
+      <div class="row"><span class="yr">2011</span><span>Graduate Student Researcher Appointment, UC Berkeley</span></div>
+      <div class="row"><span class="yr">2011</span><span><a href="https://www.fastlane.nsf.gov/grfp/AwardeeList.do?method=loadAwardeeList">Honorable Mention, NSF Graduate Research Fellowship</a></span></div>
+      <div class="row"><span class="yr">2010</span><span>First Place, University of Maryland graduate research competition, Earth and ocean science</span></div>
+      <div class="row"><span class="yr">2007</span><span><a href="https://watson.foundation">Thomas J. Watson Fellowship</a></span></div>
+      <div class="row"><span class="yr">2003, 2006</span><span><a href="https://www.swarthmore.edu/living-liberal-arts/dan-hammer-07">Lang Opportunity Scholarship; Fellowship for graduate studies</a></span></div>
+    </div>
+  </template>
+
   <template id="bio">
     <p>Dan Hammer is co-founder of <a href="https://lgnd.io/">LGND</a>, which builds AI infrastructure that makes Earth observation data searchable and actionable for people and AI agents, and co-founder of <a href="https://madewithclay.org/">Clay</a>, the open-source foundation model for Earth, where he now serves as Creative Technologist focused on public-interest applications. He is a Fellow at <a href="https://www.renaissancephilanthropy.org/">Renaissance Philanthropy</a>, an Affiliate of the Institutional Data Initiative at the <a href="https://hls.harvard.edu/library">Harvard Law School Library</a>, and co-founder of <a href="https://ode.partners">Ode</a>, a design and technology agency for environmental organizations whose work has earned multiple <a href="https://winners.webbyawards.com/2024/websites-and-mobile-sites/general-desktop-mobile-sites/sustainability-environment/287895/oceans-futures--wwf">Webby</a> and Anthem Awards.</p>
     <p>Earlier, Dan served as Chief Data Scientist at the World Resources Institute, where he helped build the first versions of <a href="https://news.berkeley.edu/?p=65111">Global Forest Watch</a>, as a Senior Policy Advisor in the White House Office of Science and Technology Policy, as a <a href="https://news.berkeley.edu/2014/12/04/dan-hammer-presidential-innovation-fellow/">Presidential Innovation Fellow at NASA</a>, and as a <a href="https://www.ioes.ucla.edu/person/dan-hammer">Senior Advisor at Google X</a>. He has taught as an adjunct at UC Berkeley and Georgetown.</p>
@@ -186,6 +209,7 @@
       var COMMANDS = {
         '/bio': { desc: 'Print a short bio', run: function (body) { return stream(body, tpl('bio')); } },
         '/work': { desc: 'List places I have worked', run: function (body) { return stream(body, tpl('work')); } },
+        '/awards': { desc: 'List awards and honors', run: function (body) { return stream(body, tpl('awards')); } },
         '/cv': { desc: 'Link to my CV (PDF)', run: function (body) {
           body.innerHTML = 'Click to open my CV: <a href="https://danham.me/r/cv.pdf" target="_blank" rel="noopener">https://danham.me/r/cv.pdf</a>';
         } },
