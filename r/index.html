@@ -50,6 +50,13 @@
     .reply .body p:last-child { margin: 0; }
     .muted { color: var(--dim); }
     .cmd { color: var(--lavender); }
+    .group + .group { margin-top: 1.25em; }
+    .reply .body .group p { margin: 0; }
+    .group .row { display: grid; grid-template-columns: minmax(0, 34ch) minmax(0, 1fr); gap: 2ch; white-space: normal; }
+    @media (max-width: 640px) {
+      .group .row { grid-template-columns: 1fr; gap: 0; margin-bottom: .4em; }
+      .group .row span:last-child { color: var(--dim); }
+    }
 
     .spinner { color: var(--accent); margin-top: 1.25em; }
     .spinner .hint { color: var(--dim); }
@@ -118,6 +125,35 @@
   </div>
 
   <!-- Content printed by commands. To add one (e.g. /headshot, /cv), add a template and an entry in COMMANDS. -->
+  <template id="work">
+    <div class="group"><p class="muted">Now</p>
+      <div class="row"><span class="org"><a href="https://lgnd.io/">LGND</a></span><span>Co-founder &amp; Chief Product Officer</span></div>
+      <div class="row"><span class="org"><a href="https://madewithclay.org/">Clay</a></span><span>Co-founder &amp; Creative Technologist</span></div>
+      <div class="row"><span class="org"><a href="https://www.renaissancephilanthropy.org/">Renaissance Philanthropy</a></span><span>Fellow</span></div>
+      <div class="row"><span class="org"><a href="https://hls.harvard.edu/library">Harvard Law School Library</a></span><span>Affiliate, Institutional Data Initiative</span></div>
+      <div class="row"><span class="org"><a href="https://ode.partners">Ode</a></span><span>Co-founder &amp; Managing Partner</span></div>
+    </div>
+    <div class="group"><p class="muted">Before</p>
+      <div class="row"><span class="org">Earthrise Media &amp; The Earth Genome</span><span>Co-founder</span></div>
+      <div class="row"><span class="org"><a href="https://www.ioes.ucla.edu/person/dan-hammer">X (Google)</a></span><span>Senior Advisor &amp; Climate Fellow</span></div>
+      <div class="row"><span class="org"><a href="https://www.nationalgeographic.org/find-explorers/dan-hammer">National Geographic Society</a></span><span>Senior Advisor &amp; Fellow</span></div>
+      <div class="row"><span class="org">The White House (OSTP)</span><span>Senior Policy Advisor</span></div>
+      <div class="row"><span class="org"><a href="https://news.berkeley.edu/2014/12/04/dan-hammer-presidential-innovation-fellow/">NASA</a></span><span>Presidential Innovation Fellow</span></div>
+      <div class="row"><span class="org">Berkeley Institute for Data Science</span><span>Fellow</span></div>
+      <div class="row"><span class="org">Global Partnership for Sustainable Development Data</span><span>Lead Data Scientist</span></div>
+      <div class="row"><span class="org">SpaceKnow</span><span>Co-founder &amp; Chief Scientist</span></div>
+      <div class="row"><span class="org"><a href="https://news.berkeley.edu/?p=65111">World Resources Institute</a></span><span>Chief Data Scientist &amp; Research Fellow</span></div>
+      <div class="row"><span class="org">Resources for the Future</span><span>Affiliated Expert &amp; Research Analyst</span></div>
+      <div class="row"><span class="org">Center for Global Development</span><span>Consultant &amp; Research Assistant</span></div>
+    </div>
+    <div class="group"><p class="muted">Teaching</p>
+      <div class="row"><span class="org"><a href="https://www.berkeley.edu/">UC Berkeley</a></span><span>Adjunct Professor; Graduate Student Instructor</span></div>
+      <div class="row"><span class="org">Georgetown University</span><span>Adjunct Professor</span></div>
+      <div class="row"><span class="org">University of San Francisco</span><span>Adjunct Professor</span></div>
+      <div class="row"><span class="org">San Quentin State Prison</span><span>Lead Instructor, Prison University Project</span></div>
+    </div>
+  </template>
+
   <template id="bio">
     <p>Dan Hammer is co-founder of <a href="https://lgnd.io/">LGND</a>, which builds AI infrastructure that makes Earth observation data searchable and actionable for people and AI agents, and co-founder of <a href="https://madewithclay.org/">Clay</a>, the open-source foundation model for Earth, where he now serves as Creative Technologist focused on public-interest applications. He is a Fellow at <a href="https://www.renaissancephilanthropy.org/">Renaissance Philanthropy</a>, an Affiliate of the Institutional Data Initiative at the <a href="https://hls.harvard.edu/library">Harvard Law School Library</a>, and co-founder of <a href="https://ode.partners">Ode</a>, a design and technology agency for environmental organizations whose work has earned multiple <a href="https://winners.webbyawards.com/2024/websites-and-mobile-sites/general-desktop-mobile-sites/sustainability-environment/287895/oceans-futures--wwf">Webby</a> and Anthem Awards.</p>
     <p>Earlier, Dan served as Chief Data Scientist at the World Resources Institute, where he helped build the first versions of <a href="https://news.berkeley.edu/?p=65111">Global Forest Watch</a>, as a Senior Policy Advisor in the White House Office of Science and Technology Policy, as a <a href="https://news.berkeley.edu/2014/12/04/dan-hammer-presidential-innovation-fellow/">Presidential Innovation Fellow at NASA</a>, and as a <a href="https://www.ioes.ucla.edu/person/dan-hammer">Senior Advisor at Google X</a>. He has taught as an adjunct at UC Berkeley and Georgetown.</p>
@@ -149,6 +185,7 @@
       // name -> { desc, run(body) }. `instant` skips the thinking spinner; `silent` prints no transcript entry.
       var COMMANDS = {
         '/bio': { desc: 'Print a short bio', run: function (body) { return stream(body, tpl('bio')); } },
+        '/work': { desc: 'List places I have worked', run: function (body) { return stream(body, tpl('work')); } },
         '/cv': { desc: 'Link to my CV (PDF)', run: function (body) {
           body.innerHTML = 'Click to open my CV: <a href="https://danham.me/r/cv.pdf" target="_blank" rel="noopener">https://danham.me/r/cv.pdf</a>';
         } },
