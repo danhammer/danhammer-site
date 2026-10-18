@@ -8,83 +8,64 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#1e1e1e">
   <link rel="icon" href="../r/img/favicon.ico">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    /* Always dark, like Claude Code's dark theme: very dark grey, not black. */
+    /* Always dark: Claude Code's palette in the VS Code terminal. */
     :root {
       --bg: #1e1e1e;
-      --fg: #e4e4e4;
-      --dim: #8b8b8b;
-      --faint: #5c5c5c;
-      --accent: #d77757;   /* Claude orange */
-      --link: #8ab4f8;
-      --border: #5c5c5c;
-      --select: #b1b9f9;
+      --fg: #cccccc;
+      --dim: #999999;
+      --rule: #888888;
+      --accent: #d77757;   /* Claude orange, for the active spinner */
+      --lavender: #b3b9f4;
+      --err: #e06c75;
     }
 
     * { box-sizing: border-box; }
     html, body { margin: 0; min-height: 100%; background: var(--bg); }
     body {
       color: var(--fg);
-      font: 400 15px/1.55 "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      -webkit-font-smoothing: antialiased;
+      font: 400 15px/1.25 Menlo, Monaco, "DejaVu Sans Mono", Consolas, "Liberation Mono", monospace;
     }
-    a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
-    ::selection { background: #3a4a6b; }
+    a { color: var(--lavender); text-decoration: underline; text-underline-offset: 2px; }
+    ::selection { background: #264f78; }
 
-    .term {
-      max-width: 920px;
-      padding: 20px 16px 40vh;
-    }
+    .term { padding: 16px 0 40vh; }
+    .pad { padding: 0 16px; }
 
-    /* Welcome box */
-    .welcome {
-      display: inline-block;
-      max-width: 100%;
-      border: 1px solid var(--accent);
-      border-radius: 8px;
-      padding: 10px 18px;
-      margin-bottom: 18px;
-    }
-    .welcome p { margin: 0; }
-    .welcome .star { color: var(--accent); }
-    .welcome .sub { margin: 10px 0 0 2ch; color: var(--dim); font-style: italic; }
-    .welcome .sub + .sub { margin-top: 2px; }
-    .tips { color: var(--dim); margin: 0 0 22px 1ch; }
+    .tips { color: var(--dim); margin: 0 0 1.25em; }
     .tips p { margin: 0; }
     .tips b { color: var(--fg); font-weight: 400; }
 
     /* Transcript */
-    .entry { margin: 0 0 18px; }
+    .entry { margin: 0 0 1.25em; }
     .echo { color: var(--dim); white-space: pre-wrap; word-break: break-word; }
-    .echo::before { content: "> "; }
-    .reply { display: flex; gap: 1ch; margin-top: 6px; }
+    .echo::before { content: "❯ "; }
+    .reply { display: flex; gap: 1ch; margin-top: 1.25em; }
     .reply .dot { flex: none; color: var(--fg); }
-    .reply .dot.err { color: #e06c75; }
+    .done { color: var(--dim); margin-top: 1.25em; }
+    .reply .dot.err { color: var(--err); }
     .reply .body { min-width: 0; white-space: pre-wrap; word-break: break-word; }
-    .reply .body p { margin: 0 0 .9em; white-space: normal; }
+    .reply .body p { margin: 0 0 1.25em; white-space: normal; }
     .reply .body p:last-child { margin: 0; }
     .muted { color: var(--dim); }
-    .cmd { color: var(--select); }
+    .cmd { color: var(--lavender); }
 
-    .spinner { color: var(--accent); margin-top: 6px; }
+    .spinner { color: var(--accent); margin-top: 1.25em; }
     .spinner .hint { color: var(--dim); }
 
     /* Prompt box */
     .prompt {
       position: relative;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 12px;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 6px 16px;
       display: flex;
       gap: 1ch;
       cursor: text;
     }
     .prompt .sign { flex: none; }
     .line { flex: 1; min-width: 0; white-space: pre-wrap; word-break: break-all; }
-    .placeholder { color: var(--faint); }
+    .placeholder { color: var(--dim); }
     .cursor {
       display: inline-block;
       width: 1ch;
@@ -104,37 +85,31 @@
       font: inherit;
       background: transparent;
     }
-    .footer-hint { color: var(--dim); font-size: 13px; margin: 6px 0 0 2ch; min-height: 1.5em; }
+    .footer-hint { color: var(--dim); margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); min-height: 1.25em; }
 
     /* Slash-command menu */
-    .menu { margin: 6px 0 0 2ch; }
+    .menu { margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); }
     .menu .row { display: flex; gap: 3ch; color: var(--dim); cursor: pointer; }
-    .menu .row .name { min-width: 10ch; }
-    .menu .row.sel { color: var(--select); }
+    .menu .row .name { min-width: 12ch; }
+    .menu .row.sel { color: var(--lavender); }
 
     @media (max-width: 520px) {
-      body { font-size: 13.5px; }
+      body { font-size: 13px; }
     }
   </style>
 </head>
 <body>
   <div class="term">
-    <div class="welcome">
-      <p><span class="star">✻</span> Welcome to <b>Dan Hammer</b>’s terminal</p>
-      <p class="sub">/help for commands</p>
-      <p class="sub">cwd: ~/danhammer</p>
-    </div>
-
-    <div class="tips">
+    <div class="tips pad">
       <p>Tips for getting started:</p>
       <p>1. Type <b>/bio</b> for a short bio</p>
       <p>2. Type <b>/</b> to see every command</p>
     </div>
 
-    <div id="log" aria-live="polite"></div>
+    <div id="log" class="pad" aria-live="polite"></div>
 
     <div class="prompt">
-      <span class="sign">&gt;</span>
+      <span class="sign">❯</span>
       <div class="line" aria-hidden="true"><span id="typed"></span><span class="cursor"></span><span id="ph" class="placeholder">Try "/bio"</span></div>
       <input id="input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Command">
     </div>
@@ -214,9 +189,11 @@
 
       // Claude Code–style spinner shown briefly before a reply
       function think(e, ms) {
+        e.dataset.start = Date.now();
         var frames = ['·', '✢', '✳', '✶', '✻', '✽', '✻', '✶', '✳', '✢'];
-        var words = ['Thinking…', 'Recollecting…', 'Pondering…', 'Reminiscing…'];
-        var word = words[Math.floor(Math.random() * words.length)];
+        var words = [['Thinking…', 'Thought'], ['Recollecting…', 'Recollected'], ['Pondering…', 'Pondered'], ['Reminiscing…', 'Reminisced']];
+        var pick = words[Math.floor(Math.random() * words.length)], word = pick[0];
+        e.dataset.verb = pick[1];
         var s = document.createElement('div');
         s.className = 'spinner';
         e.appendChild(s);
@@ -269,7 +246,14 @@
         busy = true;
         Promise.resolve(cmd.instant ? null : think(e, 700))
           .then(function () { return cmd.run(reply(e)); })
-          .then(function () { busy = false; bottom(); });
+          .then(function () {
+            if (cmd.instant) { busy = false; bottom(); return; }
+            var d = document.createElement('div');
+            d.className = 'done';
+            d.textContent = '✻ ' + e.dataset.verb + ' for ' + Math.max(1, Math.round((Date.now() - e.dataset.start) / 1000)) + 's';
+            e.appendChild(d);
+            busy = false; bottom();
+          });
       }
 
       input.addEventListener('input', function () { sel = 0; render(); });
