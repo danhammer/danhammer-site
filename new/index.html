@@ -139,6 +139,9 @@
       // name -> { desc, run(body) }. `instant` skips the thinking spinner; `silent` prints no transcript entry.
       var COMMANDS = {
         '/bio': { desc: 'Print a short bio', run: function (body) { return stream(body, tpl('bio')); } },
+        '/cv': { desc: 'Link to my CV (PDF)', run: function (body) {
+          body.innerHTML = 'Click to open my CV: <a href="https://danham.me/r/cv.pdf" target="_blank" rel="noopener">https://danham.me/r/cv.pdf</a>';
+        } },
         '/help': { desc: 'List available commands', instant: true, run: function (body) {
           body.innerHTML = Object.keys(COMMANDS).map(function (k) {
             return '<span class="cmd">' + k + '</span>' + ' '.repeat(10 - k.length) + '<span class="muted">' + COMMANDS[k].desc + '</span>';
