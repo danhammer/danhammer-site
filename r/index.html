@@ -258,8 +258,8 @@
       function holes() {
         show(art.length, true);
         var spans = Array.prototype.slice.call(el.querySelectorAll('.hole'));
-        // The white hole is always one of the name card's (columns before the gap).
-        var mine = spans.filter(function (h) { return +h.dataset.c < KIND - 4; });
+        // The white hole is always one of the name card's (columns before the gap), below its top row of holes.
+        var mine = spans.filter(function (h) { return +h.dataset.c < KIND - 4 && +h.dataset.r >= 2; });
         var seed = mine[Math.floor(Math.random() * mine.length)];
         var r0 = +seed.dataset.r, c0 = +seed.dataset.c, rainbow = false;
         // Distance in character widths; a line is about twice as tall as a character is wide.
