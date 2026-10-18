@@ -132,7 +132,7 @@
       <input id="input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Command">
     </div>
     <div class="menu" id="menu" hidden></div>
-    <div class="footer-hint"><span id="hint">? for shortcuts</span><span class="status" id="status"></span></div>
+    <div class="footer-hint"><span id="hint">? for commands</span><span class="status" id="status"></span></div>
   </div>
 
   <!-- Content printed by commands. To add one (e.g. /headshot, /cv), add a template and an entry in COMMANDS. -->
@@ -349,7 +349,7 @@
             return '<div class="row' + (i === sel ? ' sel' : '') + '"><span class="name">' + k + '</span><span>' + COMMANDS[k].desc + '</span></div>';
           }).join('');
         }
-        hint.textContent = n ? '' : '? for shortcuts';
+        hint.textContent = n ? '' : '? for commands';
       }
 
       // Status line: connection, browser, approximate location and time on the page.
