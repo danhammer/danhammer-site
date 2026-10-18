@@ -404,8 +404,8 @@
         : /Chrome|CriOS/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : '';
       var started = Date.now();
 
-      // Approximate city from the visitor's IP via geojs.io (free, no key). Until it answers, or if it fails
-      // or is blocked, show the browser's time zone instead.
+      // Approximate city from the visitor's IP via iplocate.io (free, no key), marked "(VPN)" when it flags a VPN.
+      // Until it answers, or if it fails or is blocked, show the browser's time zone instead.
       var STATES = { Alabama: 'AL', Alaska: 'AK', Arizona: 'AZ', Arkansas: 'AR', California: 'CA', Colorado: 'CO',
         Connecticut: 'CT', Delaware: 'DE', 'District of Columbia': 'DC', Florida: 'FL', Georgia: 'GA', Hawaii: 'HI',
         Idaho: 'ID', Illinois: 'IL', Indiana: 'IN', Iowa: 'IA', Kansas: 'KS', Kentucky: 'KY', Louisiana: 'LA',
@@ -419,12 +419,12 @@
       try {
         var ctl = new AbortController();
         setTimeout(function () { ctl.abort(); }, 4000);
-        fetch('https://get.geojs.io/v1/ip/geo.json', { signal: ctl.signal })
+        fetch('https://iplocate.io/api/lookup', { signal: ctl.signal })
           .then(function (r) { return r.ok ? r.json() : null; })
           .then(function (g) {
             if (!g || !g.city) return;
-            var where = g.country_code === 'US' ? STATES[g.region] || g.region : g.country;
-            place = '~' + g.city + (where ? ', ' + where : '');
+            var where = g.country_code === 'US' ? STATES[g.subdivision] || g.subdivision : g.country;
+            place = '~' + g.city + (where ? ', ' + where : '') + (g.privacy && g.privacy.is_vpn ? ' (VPN)' : '');
             tick();
           })
           .catch(function () {});
