@@ -56,6 +56,8 @@
     .group.awards .row span:last-child { color: inherit; }
     .group.awards .yr { color: var(--dim); }
     .group.misc .row { grid-template-columns: 1ch minmax(0, 1fr); gap: 1ch; }
+    .group.pubs .row { grid-template-columns: 4ch minmax(0, 1fr); margin-bottom: .6em; }
+    .group.pubs b { color: var(--fg); }
     .group .row { display: grid; grid-template-columns: minmax(0, 34ch) minmax(0, 1fr); gap: 2ch; white-space: normal; }
     @media (max-width: 640px) {
       .group .row { grid-template-columns: 1fr; gap: 0; margin-bottom: .4em; }
@@ -105,7 +107,7 @@
     /* Slash-command menu */
     .menu { margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); }
     .menu .row { display: flex; gap: 3ch; color: var(--dim); cursor: pointer; }
-    .menu .row .name { min-width: 12ch; }
+    .menu .row .name { min-width: 15ch; }
     .menu .row.sel { color: var(--lavender); }
 
     @media (max-width: 520px) {
@@ -188,6 +190,17 @@
     </div>
   </template>
 
+  <template id="publications">
+    <div class="group awards pubs">
+      <div class="row"><span class="yr">2026</span><span><a href="https://www.sciencedirect.com/science/article/pii/S2949790626000789">Building equitable and nature-positive blue natural capital markets</a><br><span class="muted">Chami, R., C. Duarte, <b>D. Hammer</b>, <i>et al.</i> <i>Cell Reports Sustainability</i>, Article 100709.</span></span></div>
+      <div class="row"><span class="yr">2014</span><span><a href="https://www.ccsenet.org/journal/index.php/jms/article/view/36252/22130">A Resource Allocation Model for Tiger Habitat Protection</a><br><span class="muted">Dasgupta, S., <b>D. Hammer</b>, R. Kraft, D. Wheeler. <i>Journal of Management and Sustainability</i> 4(3).</span></span></div>
+      <div class="row"><span class="yr">2013</span><span><a href="https://doi.org/10.1016/j.jag.2014.04.011">Near real-time forest cover change detection in the humid tropics using MODIS data</a><br><span class="muted"><b>Hammer, D.</b>, D. Wheeler, R. Kraft. <i>International Journal of Applied Earth Observation and Geoinformation</i> 33, pp. 1–9.</span></span></div>
+      <div class="row"><span class="yr">2013</span><span><a href="https://www.sciencedirect.com/science/article/pii/S0921800912004272">Economic dynamics and forest clearing: A spatial econometric analysis for Indonesia</a><br><span class="muted">Wheeler, D., <b>D. Hammer</b>, R. Kraft, S. Dasgupta, B. Blankespoor. <i>Ecological Economics</i> 85, pp. 85–96.</span></span></div>
+      <div class="row"><span class="yr">2012</span><span><a href="https://www.sciencedirect.com/science/article/pii/S0161893814000386">Vyaghranomics in Space and Time: Estimating Habitat Threat for Bengal, Indochinese, Malayan and Sumatran Tigers</a><br><span class="muted">Dasgupta, S., <b>D. Hammer</b>, R. Kraft, D. Wheeler. <i>Journal of Policy Modeling</i> 36(3), pp. 433–453.</span></span></div>
+      <div class="row"><span class="yr">2011</span><span><a href="https://onlinelibrary.wiley.com/doi/10.1111/j.1469-1795.2010.00428.x/abstract">Single-species conservation in a multiple-use landscape: Current protection of the tiger range</a><br><span class="muted">Forrest, J., <b>D. Hammer</b>, R. Kraft, <i>et al.</i> <i>Animal Conservation</i> 14.</span></span></div>
+    </div>
+  </template>
+
   <template id="bio">
     <p>Dan Hammer is co-founder of <a href="https://lgnd.io/">LGND</a>, which builds AI infrastructure that makes Earth observation data searchable and actionable for people and AI agents, and co-founder of <a href="https://madewithclay.org/">Clay</a>, the open-source foundation model for Earth, where he now serves as Creative Technologist focused on public-interest applications. He is a Fellow at <a href="https://www.renaissancephilanthropy.org/">Renaissance Philanthropy</a>, an Affiliate of the Institutional Data Initiative at the <a href="https://hls.harvard.edu/library">Harvard Law School Library</a>, and co-founder of <a href="https://ode.partners">Ode</a>, a design and technology agency for environmental organizations whose work has earned multiple <a href="https://winners.webbyawards.com/2024/websites-and-mobile-sites/general-desktop-mobile-sites/sustainability-environment/287895/oceans-futures--wwf">Webby</a> and Anthem Awards.</p>
     <p>Earlier, Dan served as Chief Data Scientist at the World Resources Institute, where he helped build the first versions of <a href="https://news.berkeley.edu/?p=65111">Global Forest Watch</a>, as a Senior Policy Advisor in the White House Office of Science and Technology Policy, as a <a href="https://news.berkeley.edu/2014/12/04/dan-hammer-presidential-innovation-fellow/">Presidential Innovation Fellow at NASA</a>, and as a <a href="https://www.ioes.ucla.edu/person/dan-hammer">Senior Advisor at Google X</a>. He has taught as an adjunct at UC Berkeley and Georgetown.</p>
@@ -222,6 +235,7 @@
         '/work': { desc: 'List places I have worked', run: function (body) { return stream(body, tpl('work')); } },
         '/awards': { desc: 'List awards and honors', run: function (body) { return stream(body, tpl('awards')); } },
         '/misc': { desc: 'Paddling, cubing, and other facts', run: function (body) { return stream(body, tpl('misc')); } },
+        '/publications': { desc: 'List peer-reviewed publications', run: function (body) { return stream(body, tpl('publications')); } },
         '/cv': { desc: 'Link to my CV (PDF)', run: function (body) {
           body.innerHTML = 'Click to open my CV: <a href="https://danham.me/r/cv.pdf" target="_blank" rel="noopener">https://danham.me/r/cv.pdf</a>';
         } },
@@ -232,7 +246,7 @@
         } },
         '/help': { desc: 'List available commands', instant: true, run: function (body) {
           body.innerHTML = Object.keys(COMMANDS).map(function (k) {
-            return '<span class="cmd">' + k + '</span>' + ' '.repeat(10 - k.length) + '<span class="muted">' + COMMANDS[k].desc + '</span>';
+            return '<span class="cmd">' + k + '</span>' + ' '.repeat(Math.max(1, 15 - k.length)) + '<span class="muted">' + COMMANDS[k].desc + '</span>';
           }).join('\n');
         } },
         '/clear': { desc: 'Clear the screen', silent: true, run: function () { log.innerHTML = ''; } }
