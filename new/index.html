@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dan Hammer</title>
+  <meta name="description" content="Dan Hammer — environmental data science. Work, education, and awards.">
+  <link rel="icon" href="../r/img/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f6f1e7;
+      --sky: #dce8ee;
+      --ink: #1f2a2e;
+      --ink-soft: #55625f;
+      --accent: #2f6b4f;
+      --cloud: #ffffff;
+      --rule: #d8cfbd;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #15191b;
+        --sky: #1d262b;
+        --ink: #ebe5d8;
+        --ink-soft: #a7ada6;
+        --accent: #7fbf9c;
+        --cloud: #2b3439;
+        --rule: #333c40;
+      }
+    }
+    :root[data-theme="dark"] {
+      --paper: #15191b;
+      --sky: #1d262b;
+      --ink: #ebe5d8;
+      --ink-soft: #a7ada6;
+      --accent: #7fbf9c;
+      --cloud: #2b3439;
+      --rule: #333c40;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 400 1.125rem/1.65 "Source Serif 4", Georgia, serif;
+      overflow-x: hidden;
+    }
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { text-decoration-thickness: 2px; }
+    .hand { font-family: "Caveat", cursive; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 520px;
+      background: linear-gradient(var(--sky), var(--paper) 85%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 16px;
+    }
+    .hero svg.drawing {
+      width: min(1100px, 100%);
+      height: auto;
+      max-height: 62vh;
+    }
+    .drawing path, .drawing circle, .drawing line {
+      fill: none;
+      stroke: var(--ink);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: draw 2.4s ease-out forwards;
+    }
+    .drawing .thin { stroke-width: 1.4; }
+    .drawing .leaf { stroke: var(--accent); }
+    .drawing .d1 { animation-delay: .3s; }
+    .drawing .d2 { animation-delay: .8s; }
+    .drawing .d3 { animation-delay: 1.3s; }
+    .drawing .d4 { animation-delay: 1.8s; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    .sat { animation: orbit 30s linear infinite; transform-origin: 600px 620px; }
+    @keyframes orbit { from { transform: rotate(-28deg); } to { transform: rotate(28deg); } }
+
+    .hero h1 {
+      margin: .2em 0 0;
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      font-size: clamp(3rem, 9vw, 6rem);
+      line-height: 1;
+    }
+    .hero .tag {
+      margin: .3em 0 0;
+      color: var(--ink-soft);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: .8rem;
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 22px;
+      font-family: "Caveat", cursive;
+      font-size: 1.4rem;
+      color: var(--ink-soft);
+      animation: bob 2.2s ease-in-out infinite;
+      z-index: 3;
+    }
+    @keyframes bob { 50% { transform: translateY(6px); } }
+
+    /* ---------- Clouds that part to reveal the bio ---------- */
+    .sky {
+      position: relative;
+      height: 260vh;
+      margin-top: -14vh;  /* cloud bank rises into the bottom of the hero */
+      z-index: 2;
+    }
+    .sky-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+    }
+    .bio {
+      max-width: 680px;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    .bio h2 { margin: 0 0 .3em; }
+    .bio p { margin: 0; }
+    .cloud {
+      position: absolute;
+      width: calc(var(--w) * var(--k, 1));
+      height: auto;
+      aspect-ratio: 300 / 140;
+      left: var(--x);
+      top: var(--y);
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+    @media (max-aspect-ratio: 1/1) { .cloud { --k: 2.4; margin-left: calc(var(--w) * -0.7); } }
+    .cloud use { fill: var(--cloud); stroke: var(--ink); stroke-width: 1.6; }
+
+    /* ---------- Sections ---------- */
+    main section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 14vh 16px 4vh;
+    }
+    h2 {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      font-size: clamp(2.4rem, 6vw, 3.4rem);
+      line-height: 1;
+      margin: 0 0 .6em;
+    }
+    h2 svg { display: block; width: 180px; height: 14px; margin-top: 4px; }
+    h2 svg path { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s ease, transform .9s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .schools { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; }
+    .school h3, .job h3 { margin: 0; font-size: 1.3rem; font-weight: 600; }
+    .school p { margin: .2em 0 0; color: var(--ink-soft); }
+
+    .jobs { list-style: none; margin: 0; padding: 0; border-left: 2px dashed var(--rule); }
+    .job { position: relative; padding: 0 0 2.2em 28px; }
+    .job::before {
+      content: ""; position: absolute; left: -8px; top: .55em;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--paper); border: 2px solid var(--accent);
+    }
+    .job .role { margin: 0; font-style: italic; color: var(--ink-soft); }
+    .job p { margin: .4em 0 0; }
+
+    .awards { list-style: none; margin: 0; padding: 0; }
+    .awards li {
+      display: flex; gap: 20px; align-items: baseline;
+      padding: .55em 0; border-bottom: 1px solid var(--rule);
+    }
+    .awards .yr { font-family: "Caveat", cursive; font-size: 1.5rem; color: var(--accent); min-width: 3.2em; }
+
+    footer {
+      text-align: center;
+      padding: 12vh 16px 8vh;
+      color: var(--ink-soft);
+    }
+    footer .links a { margin: 0 .6em; }
+    footer .sig { font-family: "Caveat", cursive; font-size: 2rem; color: var(--ink); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .drawing * { animation: none !important; stroke-dashoffset: 0 !important; }
+      .scroll-hint { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Shared shapes -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4"/>
+        <feDisplacementMap in="SourceGraphic" scale="3.5"/>
+      </filter>
+      <symbol id="cloud-shape" viewBox="0 0 300 140">
+        <path filter="url(#rough)" vector-effect="non-scaling-stroke" d="M30 120
+          C 4 120, 4 82, 34 80
+          C 30 50, 70 36, 92 56
+          C 100 20, 160 12, 176 48
+          C 196 26, 246 34, 240 72
+          C 276 70, 292 112, 262 120 Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="hero">
+    <!-- Hand-drawn hero: forest, mountains, river, sun, and a satellite watching from orbit.
+         Swap this SVG for a scanned drawing or a short looping video when one exists. -->
+    <svg class="drawing" viewBox="0 0 1200 560" role="img" aria-label="Pen sketch of forested hills under a satellite">
+      <g filter="url(#rough)">
+        <!-- orbit + satellite -->
+        <path class="thin d1" pathLength="1" stroke-dasharray="1" d="M120 300 Q 600 -40 1080 300" style="stroke-dasharray:.012 .012;animation:none;stroke-dashoffset:0;opacity:.5"/>
+        <g class="sat">
+          <g transform="translate(600 130)">
+            <path class="d2" pathLength="1" d="M-14 -9 L14 -9 L14 9 L-14 9 Z"/>
+            <path class="d2" pathLength="1" d="M-14 0 L-30 0 M14 0 L30 0"/>
+            <path class="d2 thin" pathLength="1" d="M-62 -12 L-30 -12 L-30 12 L-62 12 Z M-46 -12 L-46 12"/>
+            <path class="d2 thin" pathLength="1" d="M30 -12 L62 -12 L62 12 L30 12 Z M46 -12 L46 12"/>
+          </g>
+        </g>
+        <!-- sun -->
+        <circle class="d1" pathLength="1" cx="960" cy="150" r="44"/>
+        <path class="d3 thin" pathLength="1" d="M960 82 L960 66 M1028 150 L1044 150 M892 150 L876 150 M1008 102 L1020 90 M912 102 L900 90"/>
+        <!-- mountains -->
+        <path class="d1" pathLength="1" d="M40 400 L230 220 L300 290 L420 170 L560 330 L640 260 L780 400"/>
+        <path class="d2 thin" pathLength="1" d="M390 200 L420 170 L452 206 L432 198 L420 214 L404 196 Z"/>
+        <path class="d1" pathLength="1" d="M620 400 L820 230 L900 300 L980 250 L1160 400"/>
+        <!-- hills -->
+        <path class="d2" pathLength="1" d="M0 430 C 200 370, 380 450, 600 410 S 980 360, 1200 420"/>
+        <!-- river -->
+        <path class="d3" pathLength="1" d="M560 560 C 600 500, 520 470, 610 440 S 700 418, 650 410"/>
+        <path class="d3" pathLength="1" d="M640 560 C 680 500, 600 470, 680 444 S 740 422, 690 412"/>
+        <!-- trees left -->
+        <g class="leaf">
+          <path class="d3 leaf" pathLength="1" d="M90 470 L120 400 L150 470 Z M120 470 L120 490"/>
+          <path class="d3 leaf" pathLength="1" d="M160 480 L196 396 L232 480 Z M196 480 L196 502"/>
+          <path class="d4 leaf" pathLength="1" d="M240 470 L268 410 L296 470 Z M268 470 L268 488"/>
+          <path class="d4 leaf" pathLength="1" d="M310 486 L344 414 L378 486 Z M344 486 L344 506"/>
+          <path class="d4 leaf" pathLength="1" d="M400 476 L426 420 L452 476 Z M426 476 L426 494"/>
+          <!-- trees right -->
+          <path class="d3 leaf" pathLength="1" d="M760 470 L790 404 L820 470 Z M790 470 L790 490"/>
+          <path class="d3 leaf" pathLength="1" d="M836 484 L874 398 L912 484 Z M874 484 L874 506"/>
+          <path class="d4 leaf" pathLength="1" d="M930 468 L956 412 L982 468 Z M956 468 L956 486"/>
+          <path class="d4 leaf" pathLength="1" d="M1000 480 L1032 410 L1064 480 Z M1032 480 L1032 500"/>
+          <path class="d4 leaf" pathLength="1" d="M1080 466 L1104 416 L1128 466 Z M1104 466 L1104 484"/>
+        </g>
+        <!-- birds -->
+        <path class="d4 thin" pathLength="1" d="M300 110 q 10 -10 20 0 q 10 -10 20 0"/>
+        <path class="d4 thin" pathLength="1" d="M350 140 q 8 -8 16 0 q 8 -8 16 0"/>
+      </g>
+    </svg>
+    <h1>Dan Hammer</h1>
+    <p class="tag">Environmental data science</p>
+    <span class="scroll-hint" aria-hidden="true">scroll through the clouds ↓</span>
+  </header>
+
+  <div class="sky" id="about">
+    <div class="sky-stage">
+      <div class="bio">
+        <h2>Hello.<svg viewBox="0 0 180 14" aria-hidden="true"><path d="M3 9 C 40 3, 90 13, 177 5"/></svg></h2>
+        <p>
+          Dr. Dan Hammer [<a href="../r/cv.pdf">CV</a>] is a Managing Partner at <a href="https://ode.partners">Ode</a>,
+          a tech and design agency for the environment. He is the winner of the inaugural
+          <a href="https://www.ioes.ucla.edu/pritzker-genius/">Pritzker Environmental Genius Award</a>;
+          a member of the Brain Trust at XPRIZE; and a Senior Technical Advisor at Earth Alliance.
+          Dan earned his PhD in environmental economics from U.C. Berkeley, where he was a Fellow at the
+          Berkeley Institute for Data Science and won the 2019
+          <a href="https://alumni.berkeley.edu/announcements/caa-announcements/passing-gift-transformation-2019-berkeley-charter-gala">Mark Bingham Prize for Excellence by a Young Alumnus</a>.
+          He previously served as a Senior Policy Advisor in the Obama White House and a Presidential
+          Innovation Fellow at NASA. Dan was the Chief Data Scientist at the World Resources Institute,
+          where he co-founded <a href="https://www.globalforestwatch.org">Global Forest Watch</a>.
+          He has been a National Geographic Fellow and a lead math instructor at San Quentin State Prison
+          with the Prison University Project. Dan graduated with high honors in mathematics and economics
+          from Swarthmore College, where he was a Lang Opportunity Scholar and a Watson Fellow.
+        </p>
+      </div>
+
+      <!-- data-dir: which way the cloud drifts as it parts (-1 left, 1 right) -->
+      <svg class="cloud" data-dir="-1" style="--w:62vw;--x:-14vw;--y:-4vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="1"  style="--w:64vw;--x:48vw;--y:2vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="-1" style="--w:58vw;--x:-6vw;--y:30vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="1"  style="--w:60vw;--x:40vw;--y:34vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="-1" style="--w:66vw;--x:-18vw;--y:60vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="1"  style="--w:62vw;--x:46vw;--y:64vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="1"  style="--w:46vw;--x:22vw;--y:16vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="-1" style="--w:48vw;--x:20vw;--y:48vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="1"  style="--w:50vw;--x:30vw;--y:76vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="-1" style="--w:44vw;--x:4vw;--y:14vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="1"  style="--w:46vw;--x:58vw;--y:46vh"><use href="#cloud-shape"/></svg>
+      <svg class="cloud" data-dir="-1" style="--w:52vw;--x:10vw;--y:86vh"><use href="#cloud-shape"/></svg>
+    </div>
+  </div>
+
+  <main>
+    <section id="education">
+      <h2 class="reveal">Education<svg viewBox="0 0 180 14" aria-hidden="true"><path d="M3 7 C 50 12, 110 2, 177 8"/></svg></h2>
+      <div class="schools">
+        <div class="school reveal">
+          <h3>UC Berkeley</h3>
+          <p>PhD, Environmental Economics</p>
+          <p>Fellow, Berkeley Institute for Data Science</p>
+        </div>
+        <div class="school reveal">
+          <h3>Swarthmore College</h3>
+          <p>BA, Mathematics &amp; Economics</p>
+          <p>High Honors, Lang Scholar</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2 class="reveal">Experience<svg viewBox="0 0 180 14" aria-hidden="true"><path d="M3 8 C 60 2, 100 13, 177 6"/></svg></h2>
+      <ol class="jobs">
+        <li class="job reveal">
+          <h3><a href="https://ode.partners">Ode</a></h3>
+          <p class="role">Co-founder and Managing Partner</p>
+          <p>A tech and design agency for the environment, building digital product and AI models for organizations like the UN, WWF, TIME, and NASA.</p>
+        </li>
+        <li class="job reveal">
+          <h3><a href="https://earthrise.media">Earthrise Media</a></h3>
+          <p class="role">Founder and Partner</p>
+          <p>A creative agency for the environment, with in-house projects like <a href="https://earthrise.education">Earthrise Education</a>.</p>
+        </li>
+        <li class="job reveal">
+          <h3>X, The Moonshot Factory</h3>
+          <p class="role">Senior Advisor and Climate Fellow</p>
+          <p>Environmental strategy, with a focus on data and algorithms.</p>
+        </li>
+        <li class="job reveal">
+          <h3>The White House</h3>
+          <p class="role">Senior Policy Advisor</p>
+          <p>Office of the Chief Technology Officer in the Obama White House, specializing in the public finance of data infrastructure.</p>
+        </li>
+        <li class="job reveal">
+          <h3><a href="https://www.nationalgeographic.org/find-explorers/dan-hammer">National Geographic Society</a></h3>
+          <p class="role">Fellow &amp; Senior Advisor</p>
+          <p>Worked with National Geographic Labs to drive new ways of exploring and understanding the world.</p>
+        </li>
+        <li class="job reveal">
+          <h3>NASA</h3>
+          <p class="role">Presidential Innovation Fellow</p>
+          <p>Reported to the CTO for Information Technology and built web infrastructure for the agency’s stranded data assets. Coverage in
+            <a href="https://www.theregister.co.uk/2015/04/15/nasa_to_put_the_stars_in_your_hands_with_comingsoonnow_api_portal/">The Register</a>,
+            the <a href="https://open.nasa.gov/blog/the-value-of-open-data/">NASA Open Data Blog</a>,
+            <a href="https://www.sciencemag.org/careers/2015/07/putting-women-controls-nasa">Science</a>, and
+            <a href="https://news.berkeley.edu/2014/12/04/dan-hammer-presidential-innovation-fellow/">Berkeley News</a>.</p>
+        </li>
+        <li class="job reveal">
+          <h3><a href="https://spaceknow.com">SpaceKnow</a></h3>
+          <p class="role">Co-Founder</p>
+          <p>A venture-backed company that transforms data from space into actionable intelligence.</p>
+        </li>
+        <li class="job reveal">
+          <h3>World Resources Institute</h3>
+          <p class="role">Chief Data Scientist</p>
+          <p>Co-founded and built the first versions of <a href="https://www.globalforestwatch.org">Global Forest Watch</a>, monitoring deforestation from satellite imagery, and assembled WRI’s first team of engineers and data scientists.</p>
+        </li>
+        <li class="job reveal">
+          <h3>Resources for the Future</h3>
+          <p class="role">Affiliated Expert</p>
+          <p>Built the Forest Carbon Index, a desktop tool to identify areas with high potential for investment in terrestrial carbon.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="awards">
+      <h2 class="reveal">Awards &amp; Honors<svg viewBox="0 0 180 14" aria-hidden="true"><path d="M3 6 C 40 12, 120 3, 177 9"/></svg></h2>
+      <ul class="awards">
+        <li class="reveal"><span class="yr">2019</span><span>Mark Bingham Award for Excellence by a Young Alumnus, UC Berkeley</span></li>
+        <li class="reveal"><span class="yr">2019</span><span>National Geographic Fellow</span></li>
+        <li class="reveal"><span class="yr">2018</span><span>Non-resident Fellow, National Council of Applied Economic Research, India</span></li>
+        <li class="reveal"><span class="yr">2017</span><span>Pritzker Environmental Genius Award</span></li>
+        <li class="reveal"><span class="yr">2017</span><span>Keynote Address to the California Water Resources Control Board</span></li>
+        <li class="reveal"><span class="yr">2017</span><span>Summer at Census Scholar</span></li>
+        <li class="reveal"><span class="yr">2014</span><span>Berkeley Institute for Data Science Fellowship</span></li>
+        <li class="reveal"><span class="yr">2014</span><span>Presidential Innovation Fellowship</span></li>
+        <li class="reveal"><span class="yr">2011</span><span>Innovation Fund award, The World Bank</span></li>
+        <li class="reveal"><span class="yr">2010</span><span>First place, graduate research in earth science, University of Maryland</span></li>
+        <li class="reveal"><span class="yr">2010</span><span>Technical Expert, Scientific and Technical Advisory Panel, Global Environment Facility</span></li>
+        <li class="reveal"><span class="yr">2007</span><span>Thomas J. Watson Fellowship</span></li>
+        <li class="reveal"><span class="yr">2003</span><span>Lang Opportunity Scholarship</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p class="sig">— Dan</p>
+    <p class="links">
+      <a href="../r/cv.pdf">CV</a>
+      <a href="https://github.com/danhammer">GitHub</a>
+      <a href="https://www.linkedin.com/in/dan-hammer/">LinkedIn</a>
+      <a href="https://en.wikipedia.org/wiki/Dan_Hammer">Wikipedia</a>
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      var sky = document.querySelector('.sky');
+      var bio = document.querySelector('.bio');
+      var clouds = Array.prototype.slice.call(document.querySelectorAll('.cloud'));
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function clamp(v) { return Math.max(0, Math.min(1, v)); }
+      function ease(t) { return t * t * (3 - 2 * t); }
+
+      function update() {
+        // 0 when the sky section reaches the top of the viewport, 1 once it's scrolled through
+        var r = sky.getBoundingClientRect();
+        var p = still ? 1 : clamp(-r.top / (r.height - window.innerHeight));
+        var part = ease(clamp(p / 0.7));
+        clouds.forEach(function (c, i) {
+          var dir = +c.dataset.dir;
+          var drift = (60 + (i % 3) * 12) * part * (window.innerWidth < window.innerHeight ? 2.2 : 1);
+          c.style.transform = 'translate3d(' + dir * drift + 'vw,' + (-8 * part) + 'vh,0) scale(' + (1 + part * 0.6) + ')';
+          c.style.opacity = 1 - clamp((part - 0.55) / 0.45);
+        });
+        var b = ease(clamp((p - 0.25) / 0.4));
+        bio.style.opacity = b;
+        bio.style.transform = 'translateY(' + (24 * (1 - b)) + 'px)';
+      }
+
+      window.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>
