@@ -85,7 +85,8 @@
       font: inherit;
       background: transparent;
     }
-    .footer-hint { color: var(--dim); margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); min-height: 1.25em; }
+    .footer-hint { color: var(--dim); margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); min-height: 1.25em; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 2ch; }
+    .footer-hint .status { margin-left: auto; }
 
     /* Slash-command menu */
     .menu { margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); }
@@ -110,7 +111,7 @@
       <input id="input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Command">
     </div>
     <div class="menu" id="menu" hidden></div>
-    <div class="footer-hint" id="hint">? for shortcuts</div>
+    <div class="footer-hint"><span id="hint">? for shortcuts</span><span class="status" id="status"></span></div>
   </div>
 
   <!-- Content printed by commands. To add one (e.g. /headshot, /cv), add a template and an entry in COMMANDS. -->
@@ -193,6 +194,20 @@
         }
         hint.textContent = n ? '' : '? for shortcuts';
       }
+
+      // Status line: the visitor's OS, browser and local time, all read in the browser (nothing is sent anywhere).
+      var status = document.getElementById('status');
+      var ua = navigator.userAgent;
+      var os = /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : /CrOS/.test(ua) ? 'ChromeOS'
+        : /Mac/.test(ua) ? 'macOS' : /Win/.test(ua) ? 'Windows' : /Linux/.test(ua) ? 'Linux' : '';
+      var browser = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Firefox|FxiOS/.test(ua) ? 'Firefox'
+        : /Chrome|CriOS/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : '';
+      function tick() {
+        var time = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+        status.textContent = [os, browser, time].filter(Boolean).join(' · ');
+      }
+      tick();
+      setInterval(tick, 15000);
 
       function entry(text) {
         var e = document.createElement('div');
