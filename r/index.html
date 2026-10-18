@@ -1,378 +1,348 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Environmental Economics and Data Science">
-  <meta name="author" content="Dan Hammer">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dan Hammer</title>
+  <meta name="description" content="Dan Hammer — environmental data science.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#1e1e1e">
+  <link rel="icon" href="img/favicon.ico">
+  <style>
+    /* Always dark: Claude Code's palette in the VS Code terminal. */
+    :root {
+      --bg: #1e1e1e;
+      --fg: #cccccc;
+      --dim: #999999;
+      --rule: #888888;
+      --accent: #d77757;   /* Claude orange, for the active spinner */
+      --lavender: #b3b9f4;
+      --err: #e06c75;
+    }
 
-  <!-- favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); }
+    body {
+      color: var(--fg);
+      font: 400 15px/1.25 Menlo, Monaco, "DejaVu Sans Mono", Consolas, "Liberation Mono", monospace;
+    }
+    a { color: var(--lavender); text-decoration: underline; text-underline-offset: 2px; }
+    ::selection { background: #264f78; }
 
-  <!-- Bootstrap Core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    .term { padding: 16px 0 40vh; }
+    .pad { padding: 0 16px; }
 
-  <!-- Custom Fonts -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap" rel="stylesheet">
+    /* ASCII banner (figlet "ICL-1900": the name punched into a computer card, beside a holes-only card for "Be kind, be kind, be kind"), printed top to bottom on load */
+    .banner { margin: 0 0 1.25em; font-weight: 400; font-size: inherit; color: var(--accent); }
+    .banner pre { margin: 0; font: inherit; line-height: 1.15; font-size: min(1em, calc((100vw - 32px) / 46 / 0.61)); }
 
+    /* Transcript */
+    .entry { margin: 0 0 1.25em; }
+    .echo { color: var(--dim); white-space: pre-wrap; word-break: break-word; }
+    .echo::before { content: "❯ "; }
+    .reply { display: flex; gap: 1ch; margin-top: 1.25em; }
+    .reply .dot { flex: none; color: var(--fg); }
+    .done { color: var(--dim); margin-top: 1.25em; }
+    .reply .dot.err { color: var(--err); }
+    .reply .body { min-width: 0; white-space: pre-wrap; word-break: break-word; }
+    .reply .body p { margin: 0 0 1.25em; white-space: normal; }
+    .reply .body p:last-child { margin: 0; }
+    .muted { color: var(--dim); }
+    .cmd { color: var(--lavender); }
 
-  <!-- Custom CSS -->
-  <link href="css/stylish-portfolio.css" rel="stylesheet">
+    .spinner { color: var(--accent); margin-top: 1.25em; }
+    .spinner .hint { color: var(--dim); }
 
+    /* Prompt box */
+    .prompt {
+      position: relative;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 6px 16px;
+      display: flex;
+      gap: 1ch;
+      cursor: text;
+    }
+    .prompt .sign { flex: none; }
+    .line { flex: 1; min-width: 0; white-space: pre-wrap; word-break: break-all; }
+    .placeholder { color: var(--dim); }
+    .cursor {
+      display: inline-block;
+      width: 1ch;
+      height: 1.2em;
+      vertical-align: text-bottom;
+      background: var(--fg);
+      animation: blink 1.06s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    /* The real input sits invisibly over the box, so mobile keyboards and IME still work */
+    #input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      opacity: 0;
+      border: 0;
+      font: inherit;
+      background: transparent;
+    }
+    .footer-hint { color: var(--dim); margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); min-height: 1.25em; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 2ch; }
+    .footer-hint .status { margin-left: auto; }
+    .footer-hint .on { color: #5cc9cb; }
+    .footer-hint .off { color: var(--err); }
 
-  <!-- Google Analytics -->
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    /* Slash-command menu */
+    .menu { margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); }
+    .menu .row { display: flex; gap: 3ch; color: var(--dim); cursor: pointer; }
+    .menu .row .name { min-width: 12ch; }
+    .menu .row.sel { color: var(--lavender); }
 
-    ga('create', 'UA-40916922-1', 'danham.me');
-    ga('send', 'pageview');
-  </script>
-
+    @media (max-width: 520px) {
+      body { font-size: 13px; }
+    }
+  </style>
 </head>
+<body>
+  <div class="term">
+    <h1 class="banner pad" aria-label="Dan Hammer, Ph.D."><pre id="banner" aria-hidden="true"></pre></h1>
 
-<body id="page-top">
+    <div id="log" class="pad" aria-live="polite"></div>
 
-  <!-- Navigation -->
-  <a class="menu-toggle rounded" href="#">
-    <i class="fas fa-bars"></i>
-  </a>
-  <nav id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-      <li class="sidebar-brand">
-        <a class="js-scroll-trigger" href="#page-top">DAN HAMMER</a>
-      </li>
-      <li class="sidebar-nav-item">
-        <a class="js-scroll-trigger" href="#about">About</a>
-      </li>
-      <li class="sidebar-nav-item">
-        <a class="js-scroll-trigger" href="#experience">Experience</a>
-      </li>
-      <li class="sidebar-nav-item">
-        <a class="js-scroll-trigger" href="#education">Education</a>
-      </li>
-      <li class="sidebar-nav-item">
-        <a class="js-scroll-trigger" href="#awards">Awards & Honors</a>
-      </li>
-    </ul>
-  </nav>
-
-  <!-- Header -->
-  <header class="masthead d-flex">
-    <div class="container text-center my-auto">
-      <div class="row">
-        <div class="col-lg-6 col-md-6 mb-5 mb-lg-0">
-          <div class="row">
-            <h2 class="mb-1">ENVIRONMENTAL DATA SCIENCE</h2>
-          </div>
-          <div class="row">
-            <h1 class="mb-1">DAN HAMMER</h1>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6 mb-5 mb-lg-0">
-          <img class="img-fluid" src="img/dan.png" alt="">
-        </div>
-      </div>
-<!--       <h3 class="mb-5">
-        <em>A Free Bootstrap Theme by Start Bootstrap</em>
-      </h3> -->
+    <div class="prompt">
+      <span class="sign">❯</span>
+      <div class="line" aria-hidden="true"><span id="typed"></span><span class="cursor"></span><span id="ph" class="placeholder">Try "/bio"</span></div>
+      <input id="input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Command">
     </div>
-    <div class="overlay"></div>
-  </header>
+    <div class="menu" id="menu" hidden></div>
+    <div class="footer-hint"><span id="hint">? for shortcuts</span><span class="status" id="status"></span></div>
+  </div>
 
-  <!-- About -->
-  <section class="content-section bg-light" id="about">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-10 mx-auto">
-          <p class="lead mb-5">
+  <!-- Content printed by commands. To add one (e.g. /headshot, /cv), add a template and an entry in COMMANDS. -->
+  <template id="bio">
+    <p>Dr. Dan Hammer is a Managing Partner at <a href="https://ode.partners">Ode</a>, a tech and design agency for the environment. He is the winner of the inaugural <a href="https://www.ioes.ucla.edu/pritzker-genius/">Pritzker Environmental Genius Award</a>; a member of the Brain Trust at XPRIZE; and a Senior Technical Advisor at Earth Alliance.</p>
+    <p>Dan earned his PhD in environmental economics from U.C. Berkeley, where he was a Fellow at the Berkeley Institute for Data Science and won the 2019 <a href="https://alumni.berkeley.edu/announcements/caa-announcements/passing-gift-transformation-2019-berkeley-charter-gala">Mark Bingham Prize for Excellence by a Young Alumnus</a>. He previously served as a Senior Policy Advisor in the Obama White House and a Presidential Innovation Fellow at NASA.</p>
+    <p>Dan was the Chief Data Scientist at the World Resources Institute, where he co-founded <a href="https://www.globalforestwatch.org">Global Forest Watch</a>. He has been a National Geographic Fellow and a lead math instructor at San Quentin State Prison with the Prison University Project. Dan graduated with high honors in mathematics and economics from Swarthmore College, where he was a Lang Opportunity Scholar and a Watson Fellow.</p>
+  </template>
 
-            Dr. Dan Hammer [<a href="https://danham.me/r/cv.pdf">CV</a>] is a Managing Partner at Ode, a tech and design agency for the environment. He is the winner of the inaugural <a href="https://www.ioes.ucla.edu/pritzker-genius/">Pritzker Environmental Genius Award</a>; a member of the Brain Trust at XPRIZE; and a Senior Technical Advisor at Earth Alliance.  Dan earned his PhD in environmental economics from U.C. Berkeley, where he was a Fellow at the Berkeley Institute for Data Science and won the <a href="https://alumni.berkeley.edu/announcements/caa-announcements/passing-gift-transformation-2019-berkeley-charter-gala">2019 Mark Bingham Prize for Excellence by a Young Alumnus</a>. He previously served as a Senior Policy Advisor in the Obama White House and a Presidential Innovation Fellow at NASA.  Dan was the Chief Data Scientist at the World Resources Institute, where he <a href="https://github.com/wri/forma-clj">co-founded</a> <a href="https://www.globalforestwatch.org/">Global Forest Watch</a>. He has been a <a href="https://www.nationalgeographic.org/find-explorers/dan-hammer">National Geographic Fellow</a> and a lead math instructor at San Quentin State Prison with the <a href="https://prisonuniversityproject.org/wp-content/uploads/2017/03/16-10_PUP_newsletter.pdf#page=2">Prison University Project</a>. Dan graduated with high honors in mathematics and economics from Swarthmore College, where he was a Lang Opportunity Scholar and a Watson Fellow. 
+  <script>
+    // Print the banner in line by line, top to bottom.
+    (function () {
+      var art = "Dan Hammer, Ph.D.\n**  **  * *  ****    **  * ** **  * ** **  * *\n  *   ** *  *           * *      * *      * *\n\n *   *\n                     *  *     *  *     *  *\n              * *\n*     **       *           *        *        *\n  *     *             *   *    *   *    *   *\n          *                 *        *\n            *\n    *     *  ** *           *        *\n         *               *        *        *".split('\n');
+      var el = document.getElementById('banner');
+      // Pad with blank lines first so the layout below doesn't jump as rows appear.
+      function show(rows) { el.textContent = art.map(function (l, i) { return i < rows ? l : ' '; }).join('\n'); }
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { show(art.length); return; }
+      var row = 0;
+      show(0);
+      var t = setInterval(function () { show(++row); if (row >= art.length) clearInterval(t); }, 90);
+    })();
 
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+    (function () {
+      var log = document.getElementById('log');
 
-  <!-- Experience -->
-  <section class="content-section" id="experience">
-    <div class="container">
-      <div class="content-section-heading text-center">
-        <h3 class="text-secondary mb-0">Experience</h3>
-      </div>
-      <div class="row">
-        <div class="col-lg-10 mx-auto experience-section">
-          <h2> Ode </h2>
-          <h3> Co-founder and Managing Partner </h3>
-          <p> <a href="https://ode.partners">Ode</a> is a tech and design agency for the environment, building digital product and AI models for organizations like the UN, WWF, TIME, and NASA.
-          </a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-10 mx-auto experience-section">
-          <h2> Earthrise Media </h2>
-          <h3> Founder and Partner </h3>
-          <p> <a href="https://earthrise.media">Earthrise Media</a> is a creative agency for the environment, with in-house projects like <a href="https://earthrise.education">Earthrise Education</a>.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-10 mx-auto experience-section">
-          <h2> X, The Moonshot Factory </h2>
-          <h3> Senior Advisor and Climate Fellow </h3>
-          <p> Working on environmental strategy, with a focus on data and algorithms.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-10 mx-auto experience-section">
-          <h2> The White House </h2>
-          <h3> Senior Policy Advisor </h3>
-          <p> Worked in the Office of the Chief Technology Officer within the Obama White House as Senior Policy Advisor, specializing in the public finance of data infrastructure.
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-10 mx-auto experience-section">
-          <h2> National Geographic Society </h2>
-          <h3> Fellow & Senior Advisor </h3>
-          <p> Working with the <a href="https://www.nationalgeographic.org/projects/labs/">National Geographic Labs</a> to “drive new ways of exploring and understanding the world” and to “inspire actions to secure a planet in balance.”</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-10 mx-auto experience-section">
-          <h2> NASA </h2>
-          <h3> Presidential Innovation Fellow </h3>
-          <p> Served as a Presidential Innovation Fellow at NASA, reporting to the Chief Technology Officer for Information Technology.  Built web infrastructure for the space agency’s stranded data assets.  The work was featured in a number of articles, including <a href="https://www.theregister.co.uk/2015/04/15/nasa_to_put_the_stars_in_your_hands_with_comingsoonnow_api_portal/">The Register</a>, the <a href="https://open.nasa.gov/blog/the-value-of-open-data/">NASA Open Data Blog</a>, and <a href="https://www.sciencemag.org/careers/2015/07/putting-women-controls-nasa">Science</a>.  Coverage of the position found in <a href="https://news.berkeley.edu/2014/12/04/dan-hammer-presidential-innovation-fellow/">Berkeley News</a>.</p>
-        </div>
-      </div>
+      // Files live in r/headshots/; add a line here when you add one.
+      var HEADSHOTS = [
+        { url: 'https://danham.me/r/headshots/profile_color.jpg', note: 'color, 1250×1250' },
+        { url: 'https://danham.me/r/headshots/profile_bw.jpg', note: 'black & white, 2000×2000' }
+      ];
 
-      <div class="row">
-        <div class="col-lg-10 mx-auto experience-section">
-          <h2> SpaceKnow </h2>
-          <h3> Co-Founder </h3>
-          <p> 
-            <a href="https://spaceknow.com">SpaceKnow</a> is a venture-backed company that transforms data from space into actionable intelligence.
-          </p>
-        </div>
-      </div>
+      // name -> { desc, run(body) }. `instant` skips the thinking spinner; `silent` prints no transcript entry.
+      var COMMANDS = {
+        '/bio': { desc: 'Print a short bio', run: function (body) { return stream(body, tpl('bio')); } },
+        '/cv': { desc: 'Link to my CV (PDF)', run: function (body) {
+          body.innerHTML = 'Click to open my CV: <a href="https://danham.me/r/cv.pdf" target="_blank" rel="noopener">https://danham.me/r/cv.pdf</a>';
+        } },
+        '/headshot': { desc: 'List headshot image URLs', run: function (body) {
+          body.innerHTML = 'Headshots available:\n' + HEADSHOTS.map(function (h) {
+            return '  - <a href="' + h.url + '" target="_blank" rel="noopener">' + h.url + '</a> <span class="muted">(' + h.note + ')</span>';
+          }).join('\n');
+        } },
+        '/help': { desc: 'List available commands', instant: true, run: function (body) {
+          body.innerHTML = Object.keys(COMMANDS).map(function (k) {
+            return '<span class="cmd">' + k + '</span>' + ' '.repeat(10 - k.length) + '<span class="muted">' + COMMANDS[k].desc + '</span>';
+          }).join('\n');
+        } },
+        '/clear': { desc: 'Clear the screen', silent: true, run: function () { log.innerHTML = ''; } }
+      };
 
-      <div class="row">
-        <div class="col-lg-10 mx-auto experience-section">
-          <h2> World Resources Institute </h2>
-          <h3> Chief Data Scientist </h3>
-          <p> 
-            Co-founded and built the <a href="">first few versions</a> of <a href="https://www.globalforestwatch.org">Global Forest Watch</a>, a renewed effort to monitor deforestation from satellite imagery. Assembled a group of engineers and data scientists to work on data-driven products within the World Resources Institute, ranked as the <a href="">top environmental think-tank in the world</a>.
-          </p>
-        </div>
-      </div>
+      var input = document.getElementById('input');
+      var typed = document.getElementById('typed');
+      var ph = document.getElementById('ph');
+      var menu = document.getElementById('menu');
+      var hint = document.getElementById('hint');
+      var history = [], hIndex = 0, sel = 0, busy = false;
 
-      <div class="row">
-        <div class="col-lg-10 mx-auto experience-section">
-          <h2> Resources for the Future </h2>
-          <h3> Affiliated Expert </h3>
-          <p> 
-            Built a desktop tool called the Forest Carbon Index for RFF Fellow Nigel Purvis to identify areas with high potential for investment in terrestrial carbon.  
-          </p>
-        </div>
-      </div>
+      function tpl(id) { return document.getElementById(id).content.cloneNode(true); }
+      function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+      function bottom() { window.scrollTo(0, document.body.scrollHeight); }
+      function matches() {
+        var v = input.value;
+        if (v[0] !== '/' || v.indexOf(' ') !== -1) return [];
+        return Object.keys(COMMANDS).filter(function (k) { return k.indexOf(v) === 0; });
+      }
 
-    </div>
-  </section>
+      function render() {
+        // The drawn cursor always sits at the end, so keep the real caret there too.
+        var n = input.value.length;
+        if (input.selectionStart !== n) input.setSelectionRange(n, n);
+        typed.textContent = input.value;
+        ph.hidden = n > 0;
+        var m = matches();
+        menu.hidden = !m.length;
+        if (m.length) {
+          sel = Math.min(sel, m.length - 1);
+          menu.innerHTML = m.map(function (k, i) {
+            return '<div class="row' + (i === sel ? ' sel' : '') + '"><span class="name">' + k + '</span><span>' + COMMANDS[k].desc + '</span></div>';
+          }).join('');
+        }
+        hint.textContent = n ? '' : '? for shortcuts';
+      }
 
+      // Status line: connection, browser, language and time on the page, all read in the browser (nothing is sent anywhere).
+      var status = document.getElementById('status');
+      var ua = navigator.userAgent;
+      var browser = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Firefox|FxiOS/.test(ua) ? 'Firefox'
+        : /Chrome|CriOS/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : '';
+      var started = Date.now();
+      function uptime() {
+        var t = Math.floor((Date.now() - started) / 1000), h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60;
+        return 'up ' + (h ? h + 'h ' : '') + (h || m ? m + 'm ' : '') + (t % 60) + 's';
+      }
+      function tick() {
+        var net = navigator.onLine
+          ? '<span class="on">●</span> online'
+          : '<span class="off">●</span> offline';
+        status.innerHTML = [net, browser, navigator.language, uptime()].filter(Boolean).join(' · ');
+      }
+      tick();
+      setInterval(tick, 1000);
+      window.addEventListener('online', tick);
+      window.addEventListener('offline', tick);
 
+      function entry(text) {
+        var e = document.createElement('div');
+        e.className = 'entry';
+        e.innerHTML = '<div class="echo">' + esc(text) + '</div>';
+        log.appendChild(e);
+        return e;
+      }
+      function reply(e, err) {
+        var r = document.createElement('div');
+        r.className = 'reply';
+        r.innerHTML = '<span class="dot' + (err ? ' err' : '') + '">⏺</span><div class="body"></div>';
+        e.appendChild(r);
+        return r.querySelector('.body');
+      }
 
-  <!-- Education -->
-  <section class="content-section bg-primary text-white text-center" id="services">
-    <div class="container">
-      <div class="content-section-heading">
-        <h3 class="text-secondary-education mb-0">Education</h3>
-      </div>
-      <div class="row">
-        <div class="col-lg-6 col-md-6 mb-5 mb-lg-0">
-          <span class="service-icon rounded-circle mx-auto mb-3">
-            <img class="img-fluid" src="img/cal.png" alt="">
-          </span>
-          <h4>
-            <strong>UC Berkeley</strong>
-          </h4>
-          <p class="text-faded mb-0">PhD, Environmental Economics</p>
-          <p class="text-faded mb-0">Fellow, Berkeley Institute of Data Science</p>
-        </div>
-        <div class="col-lg-6 col-md-6 mb-5 mb-lg-0">
-          <span class="service-icon rounded-circle mx-auto mb-3">
-            <img class="img-fluid" src="img/swarthmore.png" alt="">
-          </span>
-          <h4>
-            <strong>Swarthmore College</strong>
-          </h4>
-          <p class="text-faded mb-0">BA, Mathematics & Economics</p>
-          <p class="text-faded mb-0">High Honors, Lang Scholar</p>
-        </div>
-      </div>
-    </div>
-  </section>
+      // Claude Code–style spinner shown briefly before a reply
+      function think(e, ms) {
+        e.dataset.start = Date.now();
+        var frames = ['·', '✢', '✳', '✶', '✻', '✽', '✻', '✶', '✳', '✢'];
+        var words = [['Thinking…', 'Thought'], ['Recollecting…', 'Recollected'], ['Pondering…', 'Pondered'], ['Reminiscing…', 'Reminisced']];
+        var pick = words[Math.floor(Math.random() * words.length)], word = pick[0];
+        e.dataset.verb = pick[1];
+        var s = document.createElement('div');
+        s.className = 'spinner';
+        e.appendChild(s);
+        var i = 0;
+        function frame() { s.innerHTML = frames[i++ % frames.length] + ' ' + word + ' <span class="hint">(esc to interrupt)</span>'; }
+        frame();
+        var t = setInterval(frame, 110);
+        bottom();
+        return new Promise(function (done) { setTimeout(function () { clearInterval(t); s.remove(); done(); }, ms); });
+      }
 
- <!-- Awards -->
-  <section class="content-section" id="awards">
-    <div class="container">
-      <div class="content-section-heading text-center">
-        <h3 class="text-secondary mb-0">Awards & Honors</h3>
-      </div>
-      <ul class="list-group list-group-flush col-lg-10 mx-auto">
+      // Type a fragment out character by character, keeping its links and paragraphs intact.
+      function stream(body, frag) {
+        body.appendChild(frag);
+        var walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT), nodes = [], node;
+        while ((node = walker.nextNode())) {
+          var text = node.textContent.replace(/\s+/g, ' ');
+          if (!text.trim()) { node.textContent = ''; continue; }
+          nodes.push({ node: node, text: node.previousSibling ? text : text.replace(/^ /, '') });
+          node.textContent = '';
+        }
+        var ni = 0, ci = 0;
+        return new Promise(function (done) {
+          (function tick() {
+            for (var k = 0; k < 5 && ni < nodes.length; k++) {
+              var cur = nodes[ni];
+              cur.node.textContent += cur.text[ci++];
+              if (ci >= cur.text.length) { ni++; ci = 0; }
+            }
+            bottom();
+            if (ni < nodes.length) requestAnimationFrame(tick); else done();
+          })();
+        });
+      }
 
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Mark Bingham Award for Excellence by a Young Alumnus, UC Berkeley
-          <span class="badge">2019</span>
-        </li>
+      function submit(raw) {
+        var text = raw.trim();
+        if (!text || busy) return;
+        history.push(text); hIndex = history.length;
+        var cmd = COMMANDS[text.split(/\s+/)[0]];
+        if (cmd && cmd.silent) { cmd.run(); return; }
+        var e = entry(text);
+        if (!cmd) {
+          reply(e, true).innerHTML = text[0] === '/'
+            ? 'Unknown command: ' + esc(text) + '. Type <span class="cmd">/help</span> to see what’s available.'
+            : 'I only answer a few commands here. Try <span class="cmd">/bio</span>.';
+          bottom();
+          return;
+        }
+        busy = true;
+        Promise.resolve(cmd.instant ? null : think(e, 700))
+          .then(function () { return cmd.run(reply(e)); })
+          .then(function () {
+            if (cmd.instant) { busy = false; bottom(); return; }
+            var d = document.createElement('div');
+            d.className = 'done';
+            d.textContent = '✻ ' + e.dataset.verb + ' for ' + Math.max(1, Math.round((Date.now() - e.dataset.start) / 1000)) + 's';
+            e.appendChild(d);
+            busy = false; bottom();
+          });
+      }
 
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          National Geographic Fellow
-          <span class="badge">2019</span>
-        </li>
+      input.addEventListener('input', function () { sel = 0; render(); });
+      input.addEventListener('keydown', function (ev) {
+        var m = matches();
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          var v = m.length ? m[sel] : input.value;
+          input.value = '';
+          render();
+          submit(v);
+        } else if (ev.key === 'Tab' && m.length) {
+          ev.preventDefault();
+          input.value = m[sel]; render();
+        } else if (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') {
+          ev.preventDefault();
+          var d = ev.key === 'ArrowUp' ? -1 : 1;
+          if (m.length) { sel = (sel + d + m.length) % m.length; render(); return; }
+          hIndex = Math.max(0, Math.min(history.length, hIndex + d));
+          input.value = history[hIndex] || ''; render();
+        } else if (ev.key === 'Escape') {
+          input.value = ''; render();
+        } else if (ev.key === 'l' && ev.ctrlKey) {
+          ev.preventDefault(); log.innerHTML = '';
+        } else if (ev.key === 'ArrowLeft' || ev.key === 'Home') {
+          ev.preventDefault();
+        }
+      });
+      // Clicking anywhere (except a link, or after selecting text) puts focus back in the prompt.
+      document.addEventListener('click', function (ev) {
+        if (ev.target.closest('a') || String(window.getSelection())) return;
+        input.focus();
+      });
+      menu.addEventListener('mousedown', function (ev) {
+        var row = ev.target.closest('.row');
+        if (!row) return;
+        ev.preventDefault();
+        input.value = row.querySelector('.name').textContent; render(); input.focus();
+      });
 
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Non-resident Fellow, National Council of Applied Economic Research, India 
-          <span class="badge">2018</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Pritzker Environmental Genius Award
-          <span class="badge">2017</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Keynote Address to the California Water Resources Control Board
-          <span class="badge">2017</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Summer at Census Scholar
-          <span class="badge">2017</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Berkeley Institute for Data Science Fellowship
-          <span class="badge">2014</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Presidential Innovation Fellowship
-          <span class="badge">2014</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          50 Data Scientists Gurus You Must Follow on Twitter, Automated Insights
-          <span class="badge">2014</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Graduate Student Research appointment, UC Berkeley
-          <span class="badge">2011</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Innovation Fund award (P126175, $94,500), The World Bank
-          <span class="badge">2011</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Environmental Systems Research Institute (ESRI) student assistantship
-          <span class="badge">2010</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          First place, University of Maryland, graduate research in the field of earth science
-          <span class="badge">2010</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Amazon Web Services project award 
-          <span class="badge">2010</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Technical Expert, Scientific and Technical Advisory Panel, Global Environment Facility
-          <span class="badge">2010</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Thomas J. Watson Fellowship
-          <span class="badge">2007</span>
-        </li>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Lang Opportunity Scholarship
-          <span class="badge">2003</span>
-        </li>
-                      
-      </ul>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer text-center">
-    <div class="container">
-      <ul class="list-inline mb-5">
-
-        <li class="list-inline-item">
-          <a class="social-link rounded-circle text-white mr-3" href="https://github.com/danhammer">
-            <i class="icon-social-github"></i>
-          </a>
-        </li>
-        <li class="list-inline-item">
-          <a class="social-link rounded-circle text-white mr-3" href="https://en.wikipedia.org/wiki/Dan_Hammer">
-            <i class="icon-globe"></i>
-          </a>
-        </li>
-        <li class="list-inline-item">
-          <a class="social-link rounded-circle text-white" href="https://www.linkedin.com/in/dan-hammer/">
-            <i class="icon-social-linkedin"></i>
-          </a>
-        </li>
-
-      </ul>
-    </div>
-  </footer>
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded js-scroll-trigger" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for this template -->
-  <script src="js/stylish-portfolio.min.js"></script>
-
-  <!-- Postscript for Google Analytics -->
-  <script type="text/javascript">
-    var _gauges = _gauges || [];
-    (function() {
-      var t   = document.createElement('script');
-      t.type  = 'text/javascript';
-      t.async = true;
-      t.id    = 'gauges-tracker';
-      t.setAttribute('data-site-id', '4eb74c9f613f5d3567000004');
-      t.src = '//secure.gaug.es/track.js';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(t, s);
+      render();
+      input.focus();
     })();
   </script>
-
 </body>
-
 </html>
