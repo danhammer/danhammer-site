@@ -88,9 +88,9 @@ function canvasTexture(canvas) {
   return t;
 }
 
-// A tiny framed picture: dark frame, white mat, the thumbnail, a soft shadow.
+// A tiny framed picture: a thin dark frame, a white mat, the thumbnail, a soft shadow.
 function framedCanvas(img) {
-  const long = 220, mat = 12, frame = 5, pad = 14;
+  const long = 220, mat = 8, frame = 2, pad = 14;
   const ar = img.naturalWidth / img.naturalHeight;
   const iw = ar >= 1 ? long : Math.round(long * ar);
   const ih = ar >= 1 ? Math.round(long / ar) : long;
@@ -128,7 +128,7 @@ function ringCanvas() {
   const s = 128, c = document.createElement('canvas');
   c.width = c.height = s;
   const g = c.getContext('2d');
-  g.strokeStyle = 'rgba(42,38,34,0.55)'; g.lineWidth = 3;
+  g.strokeStyle = 'rgba(42,38,34,0.55)'; g.lineWidth = 2;
   g.beginPath(); g.arc(s / 2, s / 2, s / 2 - 4, 0, Math.PI * 2); g.stroke();
   return c;
 }
@@ -258,7 +258,7 @@ export class Cloud {
   // first query, so the first fly-in does not stall on shader compilation. Resolves when ready.
   async warmup() {
     const line = new Line2(new LineGeometry().setPositions([0, 0, 0, 1, 1, 1]),
-      new LineMaterial({ linewidth: 1.6, vertexColors: true, transparent: true, depthTest: false }));
+      new LineMaterial({ linewidth: 1.1, vertexColors: true, transparent: true, depthTest: false }));
     const tip = new THREE.Sprite(new THREE.SpriteMaterial({ map: this.dotTex, color: 0xffffff, sizeAttenuation: false, depthTest: false, transparent: true }));
     const board = new THREE.Sprite(new THREE.SpriteMaterial({ map: this.dotTex, sizeAttenuation: false, depthTest: false, transparent: true }));
     this.marker.visible = this.ring.visible = true;
@@ -476,7 +476,7 @@ export class Cloud {
     geo.setPositions([from.x, from.y, from.z, from.x, from.y, from.z]);
     const ink = new THREE.Color(INK), end = new THREE.Color(color).lerp(ink, 0.3);
     geo.setColors([...ink.toArray(), ...end.toArray()]);
-    const mat = new LineMaterial({ linewidth: 1.6, vertexColors: true, transparent: true, opacity, depthTest: false });
+    const mat = new LineMaterial({ linewidth: 1.1, vertexColors: true, transparent: true, opacity, depthTest: false });
     const line = new Line2(geo, mat);
     line.renderOrder = 5;
     // the travelling tip carries the work's own colour out to it

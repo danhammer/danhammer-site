@@ -8,15 +8,24 @@ import { Tip } from './tip.js';
 import { Globe } from './globe.js';
 import { Profile } from './profile.js';
 import { Impacts } from './impacts.js';
+import { Picker } from './picker.js';
 import { tween, cancelExcept, ease } from './anim.js';
 
 const FLY_MS = 900;
 const LINE_MS = 300;
 const LINE_STAGGER_MS = 60;
 const DIM_TO = 0.22;
+// the preset searches offered in the menu (searches.json holds more), with the names the menu shows
+const FEATURES = [
+  ['craters', 'Craters'],
+  ['mountain ranges', 'Mountain Ranges'],
+  ['rilles and valleys', 'Rilles and Valleys'],
+];
+// below this width the side panel fills the window and the bottom panels share one row
+const NARROW = window.matchMedia('(max-width: 720px)');
 
 const $ = (id) => document.getElementById(id);
-const picker = $('q');
+let picker;
 
 const state = { phase: 'idle', run: 0 };
 let cloud, wall, tip, globe, searches, neighbors;
@@ -71,7 +80,8 @@ async function runQuery(res, run) {
   if (d0 < 1) tween(300, (e) => cloud.setDim(d0 + (1 - d0) * e), { run });
 
   setPhase('flying');
-  if (!(await cloud.flyTo(pts, wall.panelWidth() / 2, FLY_MS, run))) return;
+  // frame the result left of the side panel, or (where the panel will fill the window) in the middle
+  if (!(await cloud.flyTo(pts, NARROW.matches ? 0 : wall.panelWidth() / 2, FLY_MS, run))) return;
 
   setPhase('lines');
   cloud.lastResult = near;
@@ -165,6 +175,10 @@ async function main() {
   const profileClick = cloud.surfaceCb;
   cloud.surfaceCb = (x, y) => profileClick(x, y) || cloud.impacts.click(x, y);
   $('globe-toggle').addEventListener('click', toggleGlobe);
+  // on a narrow window the elevation profile and the landings timeline would overlap: one at a time
+  const { profile, impacts } = cloud;
+  profile.button.addEventListener('click', () => { if (NARROW.matches && profile.on && impacts.on) impacts.setOn(false); });
+  impacts.button.addEventListener('click', () => { if (NARROW.matches && impacts.on && profile.on) profile.setOn(false); });
 
   // a tile on the globe or its point in embedding space: its neighbourhood opens in the side panel
   // (from the globe it breaks up into embedding space first)
@@ -176,10 +190,10 @@ async function main() {
   // site, which the timeline names itself)
   cloud.tipCb = (i, x, y) => tip.show(cloud.profile.on || cloud.impacts.hoverAt(x, y) ? null : i, x, y);
 
-  for (const s of searches) picker.add(new Option(s.query, s.query));
-  picker.addEventListener('change', () => {
-    const s = searches.find((x) => x.query === picker.value);
-    if (s) show(result(s, { query: s.query }));
+  const options = FEATURES.map(([value, label]) => ({ value, label })).filter((o) => searches.some((s) => s.query === o.value));
+  picker = new Picker($('q'), options, (o) => {
+    const s = searches.find((x) => x.query === o.value);
+    if (s) show(result(s, { query: o.label }));
   });
 
   syncGlobeToggle();
