@@ -249,7 +249,7 @@ body::before {
 .profile-toggle[aria-pressed="true"] { background: var(--ink); color: var(--wall); }
 .profile-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .profile-hint {
-  position: fixed; right: calc(var(--bar-side) + 42px); bottom: 28px; z-index: 6; margin: 0;
+  position: fixed; right: calc(var(--bar-side) + 84px); bottom: 28px; z-index: 6; margin: 0;
   height: 30px; display: flex; align-items: center; pointer-events: none;
   font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
 }
@@ -305,3 +305,87 @@ body[data-measure] #stage canvas { cursor: crosshair !important; }
 .profile-overlay .pl-bike .halo .head { fill: rgba(0, 13, 36, .7); }
 .profile-overlay .pl-bike .body * { stroke: #fff; stroke-width: 1.1; }
 .profile-overlay .pl-bike .body .head { fill: #fff; }
+
+/* ---------- landings and impacts (impacts.js) ---------- */
+/* a small round button beside the elevation profile's; pressed, a timeline in the bottom left to drag
+   through every landing, lighting each site on the globe as it is passed */
+.impacts-toggle {
+  position: fixed; right: calc(var(--bar-side) + 42px); bottom: 28px; z-index: 6;
+  width: 30px; height: 30px; padding: 0; display: grid; place-items: center;
+  color: var(--ink); background: var(--glass); border: 1.5px solid var(--ink); border-radius: 50%;
+  -webkit-backdrop-filter: blur(var(--blur)); backdrop-filter: blur(var(--blur));
+  cursor: pointer;
+  transition: background var(--slow) var(--ease), color var(--slow) var(--ease), border-color var(--slow) var(--ease), opacity var(--slow) var(--ease);
+}
+.impacts-toggle:hover { border-color: var(--gold); }
+.impacts-toggle[aria-pressed="true"] { background: var(--ink); color: var(--wall); }
+.impacts-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.impacts-toggle[hidden] { display: none; }
+.impacts {
+  /* no box: it sits on the page-colour fade at the bottom of the window */
+  position: fixed; left: var(--bar-side); bottom: 24px; z-index: 6;
+  width: min(420px, calc(100vw - 2 * var(--bar-side) - 84px));
+  font-family: var(--sans); color: var(--ink);
+  transition: opacity var(--slow) var(--ease);
+}
+.impacts-toggle.is-away, .impacts.is-away,
+body[data-phase="wall"] .impacts-toggle, body[data-phase="wall"] .impacts { opacity: 0; visibility: hidden; pointer-events: none; }
+.im-legend { margin: 0; display: flex; gap: 12px; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.im-key { display: inline-flex; align-items: center; gap: 5px; }
+.im-key::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ink); }
+.im-key--crash::before { background: var(--alert); }
+.im-wait { margin: 8px 0 2px; font-size: 12px; font-weight: 300; color: var(--ink-3); }
+.im-row { display: flex; align-items: center; gap: 8px; }
+.im-axis { flex: 1; min-width: 0; height: auto; display: block; overflow: visible; cursor: ew-resize; touch-action: none; outline: none; }
+.im-axis .im-grab { fill: transparent; }
+.im-axis:focus-visible .im-base { stroke: var(--gold); }
+.im-axis .im-base { stroke: var(--rule); stroke-width: 1.5; }
+.im-axis .im-past { stroke: var(--ink); stroke-width: 1.5; }
+.im-axis .im-tick { stroke: var(--warm-grey); stroke-width: 1; }
+.im-axis .im-now { font-size: 10px; font-weight: 700; fill: var(--ink); font-variant-numeric: tabular-nums; }
+.im-axis .im-year { font-size: 9.5px; fill: var(--ink-3); font-variant-numeric: tabular-nums; }
+.im-axis .im-mark { fill: var(--paper); stroke: var(--ink-3); stroke-width: 1; }
+.im-axis .im-mark--crash { stroke: var(--alert); }
+.im-axis .im-mark.is-past { fill: var(--ink); stroke: var(--paper); }
+.im-axis .im-mark--crash.is-past { fill: var(--alert); }
+/* the last site passed stays larger; each one swells for a moment as the present passes it */
+.im-axis .im-mark { transform-box: fill-box; transform-origin: center; }
+.im-axis .im-mark.is-current { transform: scale(1.7); }
+.im-axis .im-mark.is-hit { animation: im-hit 700ms var(--ease); }
+@keyframes im-hit { 0% { transform: scale(1); } 30% { transform: scale(2.6); } 100% { transform: var(--rest, scale(1)); } }
+.im-axis .im-mark.is-current.is-hit { --rest: scale(1.7); }
+.im-axis .im-head-line { stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; }
+/* the small point past the end of the timeline: every site at once */
+.im-axis .im-all { fill: var(--wall); stroke: var(--ink); stroke-width: 1.5; cursor: pointer; outline: none; transition: fill 200ms var(--ease), stroke 200ms var(--ease); }
+.im-axis .im-all.is-on { fill: var(--ink); }
+.im-axis .im-all:hover, .im-axis .im-all:focus-visible { stroke: var(--gold); }
+/* the sites on the globe: under every control and the page-colour fades, like the profile's line */
+.impact-overlay { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; overflow: visible; }
+.impact-overlay .im-dot { fill: #fff; stroke: rgba(0, 13, 36, .75); stroke-width: 1.5; }
+.impact-overlay .im-ring { fill: none; stroke: #fff; stroke-width: 1.5; }
+.impact-overlay .im-site--crash .im-dot { fill: #ff7a52; stroke: rgba(40, 8, 0, .8); }
+.impact-overlay .im-site--crash .im-ring { stroke: #ff7a52; stroke-width: 2; }
+.impact-overlay .im-rays { fill: none; stroke: #ffb38a; stroke-width: .09; stroke-linecap: round; }
+.impact-overlay .im-site { pointer-events: none; }
+.impact-overlay .im-site.is-picked .im-dot { stroke: var(--gold); stroke-width: 2.5; r: 4.5; }
+.impact-overlay .im-label { font-family: var(--sans); font-size: 11px; font-weight: 700; fill: #fff; paint-order: stroke; stroke: rgba(0, 13, 36, .72); stroke-width: 3px; }
+@media (prefers-reduced-motion: reduce) { .impact-overlay .im-ring, .impact-overlay .im-rays { display: none; } .im-axis .im-mark.is-hit { animation: none; } }
+/* a landing's card: opens on a click on its site (or its point on the timeline), beside it */
+.im-card {
+  position: fixed; left: 0; top: 0; z-index: 30; width: 250px;
+  padding: 12px 14px 12px; background: var(--paper); box-shadow: var(--shadow-2);
+  border-top: 3px solid var(--kind, var(--ink));
+  font-family: var(--sans); color: var(--ink);
+}
+.im-card[hidden] { display: none; }
+.im-card-close {
+  position: absolute; top: 6px; right: 8px; width: 22px; height: 22px; padding: 0;
+  border: 0; background: none; cursor: pointer; font-size: 17px; line-height: 1; color: var(--ink-3);
+}
+.im-card-close:hover { color: var(--ink); }
+.im-card-kind { margin: 0 0 4px; font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.im-card-kind--crash { color: var(--alert); }
+.im-card-title { margin: 0 22px 8px 0; font-size: 16px; line-height: 1.2; font-weight: 700; }
+.im-card-facts { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 12px; line-height: 1.35; }
+.im-card-facts dt { color: var(--ink-3); }
+.im-card-facts dd { margin: 0; color: var(--ink-2); font-variant-numeric: tabular-nums; }

@@ -162,6 +162,7 @@ export class Cloud {
     this.tipCb = null;              // (index|null, x, y) => void, item under the pointer
     this.surfaceCb = null;          // (x, y) => bool: a click claimed before picking (the elevation profile)
     this.profile = null;            // the elevation profile (profile.js), drawn over the globe each frame
+    this.impacts = null;            // the landings timeline (impacts.js), drawn over the globe each frame
     this.globe = null;              // the Moon as a globe (globe.js)
     this.lift = LIFT_PX;            // px the content sits above centre; negative sits it lower
     this.drop = 0;                  // px further down, set each frame by the Moon's globe (globe.js)
@@ -1211,6 +1212,7 @@ export class Cloud {
 
     if (this.globe) this.globe.step();
     if (this.profile) this.profile.step();
+    if (this.impacts) this.impacts.step();
     this.renderer.render(this.scene, this.camera);
   }
 }

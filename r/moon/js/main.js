@@ -7,6 +7,7 @@ import { Wall } from './wall.js';
 import { Tip } from './tip.js';
 import { Globe } from './globe.js';
 import { Profile } from './profile.js';
+import { Impacts } from './impacts.js';
 import { tween, cancelExcept, ease } from './anim.js';
 
 const FLY_MS = 900;
@@ -159,6 +160,10 @@ async function main() {
   cloud.lift = -40;                // the search is a header here: sit the Moon a little below centre
   cloud.applyShift();
   cloud.profile = new Profile(cloud, globe, { button: $('profile-toggle'), panel: $('profile'), hint: $('profile-hint') });
+  cloud.impacts = new Impacts(cloud, globe, { button: $('impacts-toggle'), panel: $('impacts') });
+  // a click on the globe: the elevation profile's while it is on, else a landing site's card, else the tile
+  const profileClick = cloud.surfaceCb;
+  cloud.surfaceCb = (x, y) => profileClick(x, y) || cloud.impacts.click(x, y);
   $('globe-toggle').addEventListener('click', toggleGlobe);
 
   // a tile on the globe or its point in embedding space: its neighbourhood opens in the side panel
@@ -167,8 +172,9 @@ async function main() {
     tip.show(null);
     show(result(neighbors[i], { item: i }));
   };
-  // a name tag under the pointer (none while the elevation profile is being drawn)
-  cloud.tipCb = (i, x, y) => tip.show(cloud.profile.on ? null : i, x, y);
+  // a name tag under the pointer (none while the elevation profile is being drawn, nor over a landing
+  // site, which the timeline names itself)
+  cloud.tipCb = (i, x, y) => tip.show(cloud.profile.on || cloud.impacts.hoverAt(x, y) ? null : i, x, y);
 
   for (const s of searches) picker.add(new Option(s.query, s.query));
   picker.addEventListener('change', () => {
