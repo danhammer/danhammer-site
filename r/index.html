@@ -50,13 +50,22 @@
     .dock { flex: none; position: relative; }
     .pad { padding: 0 16px; }
 
-    /* ASCII banner (figlet "ICL-1900": the name punched into a computer card, beside a holes-only card for "Be kind, be kind, be kind"), printed top to bottom on load */
+    /* Banner: the name above a dot portrait */
     .banner { margin: 0 0 1.25em; font-weight: 400; font-size: inherit; color: var(--accent); }
     .banner pre { margin: 0; font: inherit; line-height: 1.15; font-size: min(1em, calc((100vw - 32px) / 46 / 0.61)); }
     .banner .name { color: #fff; }
     .banner pre { overflow: hidden; }
-    .banner .hole { transition: color .5s ease; }
-    .banner .hole.seed { color: #fff; transition: color 2s ease; cursor: pointer; }
+    /* The banner is as wide as the name, and the portrait fills that width (width: 0 keeps it from widening
+       the column). It never grows so tall that the prompt below leaves the top half of the window. */
+    .banner { display: grid; grid-template-columns: max-content; }
+    .banner .portrait { cursor: pointer; display: block; width: 0; min-width: 100%; margin-top: .75em; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .banner .portrait > * { display: block; width: 100%; height: auto; max-height: calc(50dvh - 100px); }
+    /* On click, the hat's dots fade from orange to the cap's own colors; nothing else is redrawn */
+    .banner .portrait path { transition: stroke .8s ease, opacity .8s ease; }
+    .banner .portrait.colored .cap { stroke: #4169e1; }
+    .banner .portrait.colored .patch { stroke: #fff; }
+    .banner .portrait.colored .letters, .banner .portrait .fill { stroke: #e03c31; }
+    .banner .portrait.colored .fill { opacity: 1; }
 
     /* Transcript */
     .entry { margin: 0 0 1.25em; }
@@ -140,7 +149,7 @@
 <body>
   <div class="term" id="term">
     <div class="scroll" id="scroll">
-    <h1 class="banner pad" aria-label="Dan Hammer, Ph.D."><pre id="banner" aria-hidden="true"></pre></h1>
+    <h1 class="banner pad" aria-label="Dan Hammer, Ph.D."><pre id="banner" aria-hidden="true"><span class="name">Dan Hammer, Ph.D.</span></pre><span class="portrait" id="portrait"><img src="img/dan_dots.svg" alt="" width="190" height="290"></span></h1>
 
     <div id="log" class="pad" aria-live="polite"></div>
     </div>
@@ -234,78 +243,16 @@
   </template>
 
   <script>
-    // Print the banner in line by line, top to bottom.
+    // Clicking the portrait fades the hat into its own colors (the brim's shadow stays orange); clicking again fades it back.
+    // The SVG is swapped inline for the <img> so page styles can reach its dots.
     (function () {
-      var art = "Dan Hammer, Ph.D.\n**  **  * *  ****    **  * ** **  * ** **  * *\n  *   ** *  *           * *      * *      * *\n\n *   *\n                     *  *     *  *     *  *\n              * *\n*     **       *           *        *        *\n  *     *             *   *    *   *    *   *\n          *                 *        *\n            *\n    *     *  ** *           *        *\n         *               *        *        *".split('\n');
-      var el = document.getElementById('banner');
-      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      // The "Be kind" card starts at column 21 (17-column name card + 4 spaces). Its first 9 columns
-      // punch "Be kind, ", so repeat them to fill the window's width (measured once, on load).
-      var KIND = 21, UNIT = 9;
-      var probe = document.createElement('span');
-      probe.textContent = '0000000000';
-      el.appendChild(probe);
-      var cols = Math.floor(el.clientWidth / (probe.getBoundingClientRect().width / 10));
-      el.removeChild(probe);
-      var width = Math.max.apply(null, art.map(function (l) { return l.length; }));
-      if (cols > width) {
-        art = art.map(function (l, r) {
-          if (r === 0) return l;
-          var unit = (l + ' '.repeat(width)).slice(KIND, KIND + UNIT), tail = '';
-          while (tail.length < cols - KIND) tail += unit;
-          return ((l + ' '.repeat(width)).slice(0, KIND) + tail.slice(0, cols - KIND)).replace(/\s+$/, '');
-        });
-      }
-
-      function esc(ch) { return ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch === '&' ? '&amp;' : ch; }
-      // Row 0 is the name, always white; with `spans`, every hole gets its own element.
-      function line(l, r, spans) {
-        if (r === 0) return '<span class="name">' + l.split('').map(esc).join('') + '</span>';
-        if (!spans) return l;
-        var html = '';
-        for (var c = 0; c < l.length; c++) {
-          html += l[c] === '*' ? '<span class="hole" data-r="' + r + '" data-c="' + c + '">*</span>' : esc(l[c]);
-        }
-        return html;
-      }
-      // Pad unprinted rows with a space so the layout below doesn't jump as rows appear.
-      function show(rows, spans) {
-        el.innerHTML = art.map(function (l, r) { return r < rows ? line(l, r, spans) : ' '; }).join('\n');
-      }
-
-      // Once printed, fade one of the name card's holes to white. Clicking the white hole washes the others
-      // into a rainbow rippling outward from it; clicking again ripples back.
-      function holes() {
-        show(art.length, true);
-        var spans = Array.prototype.slice.call(el.querySelectorAll('.hole'));
-        // The white hole is always one of the name card's (columns before the gap), below its top row of holes.
-        var mine = spans.filter(function (h) { return +h.dataset.c < KIND - 4 && +h.dataset.r >= 2; });
-        var seed = mine[Math.floor(Math.random() * mine.length)];
-        var r0 = +seed.dataset.r, c0 = +seed.dataset.c, rainbow = false;
-        // Distance in character widths; a line is about twice as tall as a character is wide.
-        spans.forEach(function (h) {
-          h.dist = Math.hypot(+h.dataset.c - c0, (+h.dataset.r - r0) * 1.9);
-        });
-        var max = Math.max.apply(null, spans.map(function (h) { return h.dist; })) || 1;
-        setTimeout(function () { seed.classList.add('seed'); }, still ? 0 : 400);
-        seed.addEventListener('click', function () {
-          rainbow = !rainbow;
-          spans.forEach(function (h) {
-            if (h === seed) return;
-            h.style.transitionDelay = still ? '0s' : Math.round(h.dist / max * 1500) + 'ms';
-            h.style.color = rainbow ? 'hsl(' + Math.round(h.dist / max * 300) + ', 85%, 65%)' : '';
-          });
-        });
-      }
-
-      if (still) { show(art.length); holes(); return; }
-      var row = 0;
-      show(0);
-      var t = setInterval(function () {
-        show(++row);
-        if (row >= art.length) { clearInterval(t); holes(); }
-      }, 90);
+      var portrait = document.getElementById('portrait');
+      fetch('img/dan_dots.svg').then(function (r) { return r.text(); }).then(function (svg) {
+        portrait.innerHTML = svg;
+        portrait.firstElementChild.setAttribute('aria-hidden', 'true');
+        portrait.firstElementChild.setAttribute('preserveAspectRatio', 'xMinYMin meet');
+        portrait.addEventListener('click', function () { portrait.classList.toggle('colored'); });
+      });
     })();
 
     (function () {
