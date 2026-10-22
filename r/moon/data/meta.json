@@ -1,0 +1,8 @@
+{
+ "n": 1024,
+ "globe": {
+  "z": 5,
+  "cell": 128,
+  "atlas": "data/globe_atlas.jpg"
+ }
+}

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Moon in Embedding Space</title>
+  <meta name="description" content="The Moon as 1,024 map tiles, embedded with EmbeddingGemma 2: turn the globe, break it up into embedding space, search it, ride an elevation profile across its surface, and scrub through every landing since 1966.">
+  <link rel="stylesheet" href="css/moon.css?v=2">
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three/three.module.min.js" } }
+  </script>
+</head>
+<body>
+  <div id="stage" aria-label="The Moon, and its tiles as points in embedding space"></div>
+
+  <div class="loading" id="loading"><span class="moon-loader" role="img" aria-label="Loading the Moon"></span></div>
+
+  <div class="ask">
+    <span class="ask-prefix" id="q-label">Search for</span>
+    <div class="pick is-empty" id="q">
+      <button type="button" class="pick-btn" id="q-btn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="q-label q-btn"><span class="pick-value">a feature…</span></button>
+      <ul class="pick-list" role="listbox" aria-labelledby="q-label" tabindex="-1" hidden></ul>
+    </div>
+  </div>
+
+  <button type="button" class="globe-toggle" id="globe-toggle" aria-pressed="false">Embedding</button>
+
+  <aside class="wall" id="wall" aria-hidden="true">
+    <div class="wall-head">
+      <div class="wall-tools">
+        <span class="wall-kicker" id="wall-kicker">Nearest tiles</span>
+        <button type="button" class="text-btn" id="close-wall" aria-label="Close the wall">Close</button>
+      </div>
+      <h2 class="exhibit-title" id="wall-title"></h2>
+      <p class="wall-sub" id="wall-sub"></p>
+    </div>
+    <div class="hang" id="hang"></div>
+  </aside>
+
+  <aside class="wall-label" id="wall-label" aria-live="polite">
+    <p class="wall-label-kicker">Gemma’s note</p>
+    <p class="wall-label-text"></p>
+  </aside>
+
+  <div class="dot-tip" id="dot-tip" aria-hidden="true"></div>
+
+  <section class="profile" id="profile" aria-live="polite" hidden></section>
+  <p class="profile-hint" id="profile-hint" hidden></p>
+  <section class="impacts" id="impacts" aria-label="Landings and impacts on the Moon" hidden></section>
+  <button type="button" class="impacts-toggle" id="impacts-toggle" aria-pressed="false" aria-label="Landings and impacts timeline" title="Landings and impacts" hidden>
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M8.0 0.6 L9.5 5.4 L13.4 4.9 L11.2 8.0 L14.2 11.6 L9.4 10.5 L8.0 14.0 L6.5 10.7 L1.9 11.5 L5.0 8.0 L2.5 4.8 L6.4 5.2Z"/></svg>
+  </button>
+  <button type="button" class="profile-toggle" id="profile-toggle" aria-pressed="false" aria-label="Elevation profile" title="Elevation profile" hidden>
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 11.5 5 6.5l2.5 3 2-2.5 5 4"/></svg>
+  </button>
+
+  <script type="module" src="js/main.js?v=2"></script>
+</body>
+</html>
