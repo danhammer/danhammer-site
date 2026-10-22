@@ -130,8 +130,9 @@
     }
     .footer-hint { color: var(--dim); margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); min-height: 1.25em; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 2ch; }
     .footer-hint .status { margin-left: auto; text-align: right; }
-    .footer-hint .on { color: #5cc9cb; }
-    .footer-hint .off { color: var(--err); }
+    /* Claude Code's permission-mode indicator; click to cycle */
+    .footer-hint .mode { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .footer-hint .mode.on { color: #ffc107; }
 
     /* Slash-command menu: floats over the status line (or, if there's no room below, over the transcript above
        the prompt) so opening it never moves the prompt. */
@@ -344,7 +345,7 @@
         hint.textContent = n ? '' : '? for commands';
       }
 
-      // Status line: connection, browser, approximate location and time on the page.
+      // Status line: auto mode, browser, approximate location and time on the page.
       var status = document.getElementById('status');
       var ua = navigator.userAgent;
       var browser = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Firefox|FxiOS/.test(ua) ? 'Firefox'
@@ -395,16 +396,19 @@
         var t = Math.floor((Date.now() - started) / 1000), h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60;
         return 'up ' + (h ? h + 'h ' : '') + (h || m ? m + 'm ' : '') + (t % 60) + 's';
       }
+      // Auto mode starts on: unless it's switched off first, /bio runs on its own shortly after the page opens.
+      var auto = true;
       function tick() {
-        var net = navigator.onLine
-          ? '<span class="on">●</span> online'
-          : '<span class="off">●</span> offline';
-        status.innerHTML = [net, browser, esc(place)].filter(Boolean).join(' · ') + '<br>' + uptime();
+        var mode = '<span class="mode' + (auto ? ' on' : '') + '">⏵⏵ auto mode ' + (auto ? 'on' : 'off') + '</span>';
+        status.innerHTML = [mode, browser, esc(place)].filter(Boolean).join(' · ') + '<br>' + uptime();
       }
       tick();
       setInterval(tick, 1000);
-      window.addEventListener('online', tick);
-      window.addEventListener('offline', tick);
+      status.addEventListener('click', function (ev) {
+        if (!ev.target.closest('.mode')) return;
+        auto = !auto; tick();
+      });
+      setTimeout(function () { if (auto && !history.length) submit('/bio'); }, 2000);
 
       function entry(text) {
         var e = document.createElement('div');
