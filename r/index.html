@@ -131,7 +131,7 @@
     .footer-hint { color: var(--dim); margin: 4px 0 0; padding: 0 16px 0 calc(16px + 2ch); min-height: 1.25em; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 2ch; }
     .footer-hint .status { margin-left: auto; text-align: right; }
     /* Claude Code's permission-mode indicator; click to cycle */
-    .footer-hint .mode { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .footer-hint .mode { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; color: #6b80c4; }  /* off: dimmed cap blue */
     .footer-hint .mode.on { color: #ffc107; }
 
     /* Slash-command menu: floats over the status line (or, if there's no room below, over the transcript above
@@ -400,15 +400,28 @@
       var auto = true;
       function tick() {
         var mode = '<span class="mode' + (auto ? ' on' : '') + '">⏵⏵ auto mode ' + (auto ? 'on' : 'off') + '</span>';
-        status.innerHTML = [mode, browser, esc(place)].filter(Boolean).join(' · ') + '<br>' + uptime();
+        function render(parts) {
+          status.innerHTML = '<span>' + parts.filter(Boolean).join(' · ') + '</span><br>' + uptime();
+        }
+        render([mode, browser, esc(place)]);
+        // On a narrow screen, drop the browser rather than let the first line wrap; it comes back when there's room.
+        if (browser && status.firstChild.getClientRects().length > 1) render([mode, esc(place)]);
       }
       tick();
       setInterval(tick, 1000);
+      window.addEventListener('resize', tick);
       status.addEventListener('click', function (ev) {
         if (!ev.target.closest('.mode')) return;
         auto = !auto; tick();
       });
-      setTimeout(function () { if (auto && !history.length) submit('/bio'); }, 2000);
+      // Auto mode runs /bio and colors in the hat, as if the portrait were clicked; with nothing left to do, it
+      // then switches itself off.
+      setTimeout(function () {
+        if (!auto || history.length) return;
+        submit('/bio');
+        document.getElementById('portrait').classList.add('colored');
+        auto = false; tick();
+      }, 2000);
 
       function entry(text) {
         var e = document.createElement('div');
