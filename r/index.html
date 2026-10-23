@@ -432,8 +432,13 @@
           status.innerHTML = '<span>' + parts.filter(Boolean).join(' · ') + '</span><br>' + uptime();
         }
         render([mode, browser, esc(place)]);
-        // On a narrow screen, drop the browser rather than let the first line wrap; it comes back when there's room.
-        if (browser && status.firstChild.getClientRects().length > 1) render([mode, esc(place)]);
+        // "auto mode off" is a character longer than "on"; if that alone wraps the first line on a narrow screen
+        // (the "on" version would fit), drop the browser until auto mode is back on or there's room again.
+        function wraps() { return status.firstChild.getClientRects().length > 1; }
+        if (!auto && browser && wraps()) {
+          render([mode.replace('auto mode off', 'auto mode on'), browser, esc(place)]);
+          render(wraps() ? [mode, browser, esc(place)] : [mode, esc(place)]);
+        }
       }
       tick();
       setInterval(tick, 1000);
