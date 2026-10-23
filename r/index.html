@@ -446,17 +446,36 @@
       status.addEventListener('click', function (ev) {
         if (!ev.target.closest('.mode')) return;
         auto = !auto; tick();
+        if (auto && introDone) autorun();
       });
       // Auto mode colors in the hat, as if the portrait were clicked, and once that fade (.8s, set on the portrait's
       // paths) has finished, runs /bio; with nothing left to do, it then switches itself off.
+      var introDone = false;
       setTimeout(function () {
-        if (!auto || history.length) return;
+        if (!auto || history.length) { introDone = true; return; }
         document.getElementById('portrait').classList.add('colored');
         setTimeout(function () {
           if (auto && !history.length) submit('/bio');
-          auto = false; tick();
+          auto = false; introDone = true; tick();
         }, 800);
       }, 2000);
+      // Switched back on, auto mode runs the other commands in order (everything but /clear, and /bio too if it
+      // hasn't been printed yet), 2s apart, then switches itself off. Switching it off stops after the current one.
+      var runs = 0;
+      function autorun() {
+        var id = ++runs;
+        var queue = Object.keys(COMMANDS).filter(function (k) {
+          return k !== '/clear' && !(k === '/bio' && history.indexOf('/bio') !== -1);
+        });
+        (function next() {
+          if (!auto || id !== runs) return;
+          if (busy) { setTimeout(next, 200); return; }
+          Promise.resolve(submit(queue.shift())).then(function () {
+            if (!queue.length) { if (id === runs) { auto = false; tick(); } return; }
+            setTimeout(next, 2000);
+          });
+        })();
+      }
 
       function entry(text) {
         var e = document.createElement('div');
@@ -531,7 +550,7 @@
           return;
         }
         busy = true;
-        Promise.resolve(cmd.instant ? null : think(e, 700))
+        return Promise.resolve(cmd.instant ? null : think(e, 700))
           .then(function () { return cmd.run(reply(e)); })
           .then(function () {
             if (cmd.instant) { busy = false; bottom(); return; }
