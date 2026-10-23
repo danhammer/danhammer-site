@@ -265,6 +265,26 @@
         { url: 'https://danham.me/r/headshots/profile_bw.jpg', note: 'black & white, 2000×2000' }
       ];
 
+      // Projects are found, not listed: any folder in r/ with its own index.html counts (folders starting with "_"
+      // don't), named by that page's <title> and described by its meta description. The folders come from the
+      // GitHub API for the deployed branch, so a new project shows up here once it's pushed.
+      function projects() {
+        return fetch('https://api.github.com/repos/danhammer/danhammer-site/contents/r')
+          .then(function (r) { return r.ok ? r.json() : []; })
+          .then(function (items) {
+            return Promise.all(items.filter(function (it) { return it.type === 'dir' && !/^[_.]/.test(it.name); })
+              .map(function (it) {
+                return fetch(it.name + '/index.html').then(function (r) { return r.ok ? r.text() : null; }).then(function (html) {
+                  if (!html) return null;
+                  var doc = new DOMParser().parseFromString(html, 'text/html');
+                  var meta = doc.querySelector('meta[name="description"]');
+                  return { name: it.name, title: doc.title || it.name, desc: meta ? meta.getAttribute('content') : '' };
+                }, function () { return null; });
+              }));
+          })
+          .then(function (list) { return list.filter(Boolean); }, function () { return []; });
+      }
+
       // name -> { desc, run(body) }. `instant` skips the thinking spinner; `silent` prints no transcript entry.
       var COMMANDS = {
         '/bio': { desc: 'Print a short bio', run: function (body) { return stream(body, tpl('bio')); } },
@@ -279,6 +299,14 @@
           body.innerHTML = 'Headshots available:\n' + HEADSHOTS.map(function (h) {
             return '  - <a href="' + h.url + '" target="_blank" rel="noopener">' + h.url + '</a> <span class="muted">(' + h.note + ')</span>';
           }).join('\n');
+        } },
+        '/projects': { desc: 'List side projects on this site', run: function (body) {
+          return projects().then(function (list) {
+            body.innerHTML = list.length ? 'Projects:\n' + list.map(function (p) {
+              return '  - <a href="' + p.name + '/" target="_blank" rel="noopener">https://danham.me/r/' + p.name + '</a>'
+                + '\n    ' + esc(p.title) + (p.desc ? ' <span class="muted">' + esc(p.desc) + '</span>' : '');
+            }).join('\n') : 'Couldn’t load the project list just now. Try again in a minute.';
+          });
         } },
         '/help': { desc: 'List available commands', instant: true, run: function (body) {
           body.innerHTML = Object.keys(COMMANDS).map(function (k) {
@@ -414,13 +442,15 @@
         if (!ev.target.closest('.mode')) return;
         auto = !auto; tick();
       });
-      // Auto mode runs /bio and colors in the hat, as if the portrait were clicked; with nothing left to do, it
-      // then switches itself off.
+      // Auto mode colors in the hat, as if the portrait were clicked, and once that fade (.8s, set on the portrait's
+      // paths) has finished, runs /bio; with nothing left to do, it then switches itself off.
       setTimeout(function () {
         if (!auto || history.length) return;
-        submit('/bio');
         document.getElementById('portrait').classList.add('colored');
-        auto = false; tick();
+        setTimeout(function () {
+          if (auto && !history.length) submit('/bio');
+          auto = false; tick();
+        }, 800);
       }, 2000);
 
       function entry(text) {
