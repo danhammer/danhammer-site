@@ -1,4 +1,4 @@
-_site
-_import
 .DS_Store
-Gemfile.lock
+_site/
+# Dropbox sync conflicts
+*conflicted copy*
