@@ -269,9 +269,14 @@
         { url: 'https://danham.me/r/headshots/profile_bw.jpg', note: 'black & white, 2000×2000' }
       ];
 
+      // Projects that are a single file rather than a folder; add a line here when you add one.
+      var FILE_PROJECTS = [
+        { path: 'paper.pdf', title: 'Indonesia’s Failed Forest Moratorium', desc: 'Why Indonesia’s 2011 freeze on clearing primary forest raised deforestation instead: a natural experiment across the Borneo border, tracked with monthly satellite alerts.' }
+      ];
+
       // Projects are found, not listed: any folder in r/ with its own index.html counts (folders starting with "_"
       // don't), named by that page's <title> and described by its meta description. The folders come from the
-      // GitHub API for the deployed branch, so a new project shows up here once it's pushed.
+      // GitHub API for the deployed branch, so a new project shows up here once it's pushed. FILE_PROJECTS follow.
       function projects() {
         return fetch('https://api.github.com/repos/danhammer/danhammer-site/contents/r')
           .then(function (r) { return r.ok ? r.json() : []; })
@@ -282,11 +287,11 @@
                   if (!html) return null;
                   var doc = new DOMParser().parseFromString(html, 'text/html');
                   var meta = doc.querySelector('meta[name="description"]');
-                  return { name: it.name, title: doc.title || it.name, desc: meta ? meta.getAttribute('content') : '' };
+                  return { path: it.name + '/', title: doc.title || it.name, desc: meta ? meta.getAttribute('content') : '' };
                 }, function () { return null; });
               }));
           })
-          .then(function (list) { return list.filter(Boolean); }, function () { return []; });
+          .then(function (list) { return list.filter(Boolean).concat(FILE_PROJECTS); }, function () { return []; });
       }
 
       // name -> { desc, run(body) }. `instant` skips the thinking spinner; `silent` prints no transcript entry.
@@ -307,7 +312,7 @@
         '/projects': { desc: 'List side projects on this site', run: function (body) {
           return projects().then(function (list) {
             body.innerHTML = list.length ? 'Projects:\n' + list.map(function (p) {
-              return '  - <a href="' + p.name + '/" target="_blank" rel="noopener">https://danham.me/r/' + p.name + '</a>'
+              return '  - <a href="' + p.path + '" target="_blank" rel="noopener">https://danham.me/r/' + p.path.replace(/\/$/, '') + '</a>'
                 + '\n    ' + esc(p.title) + (p.desc ? ' <span class="muted">' + esc(p.desc) + '</span>' : '');
             }).join('\n') : 'Couldn’t load the project list just now. Try again in a minute.';
           });
